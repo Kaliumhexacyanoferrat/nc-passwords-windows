@@ -1,10 +1,10 @@
 # NcPasswords
 
+[![Download for Windows](https://img.shields.io/badge/Download-NcPasswords_v0.1.0-0082C9?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.1.0/NcPasswords-Setup-0.1.0.exe)
+
 NcPasswords is a simple Windows app for browsing your Nextcloud [Passwords](https://apps.nextcloud.com/apps/passwords)
 entries without opening a browser. You sign in once, and can then look up, search and copy your saved logins
 straight from the desktop.
-
-[![Download for Windows](https://img.shields.io/badge/Download-NcPasswords_v0.1.0-0082C9?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.1.0/NcPasswords-Setup-0.1.0.exe)
 
 > **Disclaimer:** This project - including parts of its code and documentation - was built with the help of
 > Claude (Anthropic's AI coding assistant). It hasn't been reviewed by a third-party security audit. As with any
