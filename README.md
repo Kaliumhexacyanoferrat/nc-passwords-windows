@@ -9,6 +9,10 @@ straight from the desktop.
 > tool that handles your passwords, please use your own judgment, especially if you're storing sensitive
 > accounts.
 
+## Screenshots
+
+![Screenshot](https://raw.githubusercontent.com/Kaliumhexacyanoferrat/nc-passwords-windows/refs/heads/main/screenshots/main.png)
+
 ## What it does
 
 - Sign in with your Nextcloud server address, username and password (use an **app password** instead if you
