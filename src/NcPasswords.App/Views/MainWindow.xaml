@@ -1,0 +1,81 @@
+<Window x:Class="NcPasswords.App.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:NcPasswords.App.ViewModels"
+        Title="Nextcloud Passwords" Height="640" Width="960"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <HierarchicalDataTemplate DataType="{x:Type vm:FolderNodeViewModel}" ItemsSource="{Binding Children}">
+            <TextBlock Text="{Binding Label}" />
+        </HierarchicalDataTemplate>
+
+        <ContextMenu x:Key="EntryContextMenu">
+            <MenuItem Header="Copy Username" Click="CopyUsernameMenuItem_Click" />
+            <MenuItem Header="Copy Password" Click="CopyPasswordMenuItem_Click" InputGestureText="Ctrl+C" />
+            <Separator />
+            <MenuItem Header="Details..." Click="Details_Click" />
+        </ContextMenu>
+    </Window.Resources>
+
+    <DockPanel Margin="10">
+        <!-- Toolbar -->
+        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                <Button Content="Refresh" Command="{Binding RefreshCommand}" Style="{StaticResource ToolbarButton}" />
+                <Button Content="Sign out" Command="{Binding SignOutCommand}" Style="{StaticResource ToolbarButton}" />
+                <ProgressBar Width="18" Height="18" IsIndeterminate="True" Margin="6,0"
+                             Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}" />
+            </StackPanel>
+            <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" Opacity="0.6" Margin="10,0,0,0"
+                       Text="{Binding LastSyncedUtc, StringFormat='Last synced: {0:g} UTC'}" />
+            <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     VerticalContentAlignment="Center" Padding="6,3"
+                     ToolTip="Search entries by name, username, URL or notes" />
+        </DockPanel>
+
+        <TextBlock DockPanel.Dock="Top" Text="{Binding ErrorMessage}" Foreground="Firebrick" Margin="0,0,0,8"
+                   Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibility}}" TextWrapping="Wrap" />
+
+        <TextBlock DockPanel.Dock="Bottom" Text="{Binding StatusMessage}" Opacity="0.7" Margin="0,6,0,0"
+                   Visibility="{Binding StatusMessage, Converter={StaticResource StringToVisibility}}" />
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="0" Margin="0,0,10,0">
+                <Button DockPanel.Dock="Top" Content="All Passwords" HorizontalContentAlignment="Left"
+                        Command="{Binding ShowAllFoldersCommand}" Margin="0,0,0,6" Padding="6,4" />
+                <TreeView x:Name="FolderTree" ItemsSource="{Binding Tree}"
+                          SelectedItemChanged="FolderTree_SelectedItemChanged" />
+            </DockPanel>
+
+            <ListView Grid.Column="1" x:Name="EntriesList" ItemsSource="{Binding Entries}"
+                      PreviewKeyDown="EntriesList_PreviewKeyDown">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="ContextMenu" Value="{StaticResource EntryContextMenu}" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" Width="220" DisplayMemberBinding="{Binding Label}" />
+                        <GridViewColumn Header="Username" Width="200" DisplayMemberBinding="{Binding Username}" />
+                        <GridViewColumn Header="URL" Width="240" DisplayMemberBinding="{Binding Url}" />
+                        <GridViewColumn Header="Updated" Width="140" DisplayMemberBinding="{Binding Updated, StringFormat='{}{0:d}'}" />
+                        <GridViewColumn Header="" Width="40">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="..." Padding="6,0" Click="Details_Click" ToolTip="Details" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </DockPanel>
+</Window>

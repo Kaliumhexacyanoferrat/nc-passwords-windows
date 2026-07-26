@@ -1,0 +1,68 @@
+<Window x:Class="NcPasswords.App.Views.DetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Title, StringFormat='Details — {0}'}"
+        Height="520" Width="480"
+        WindowStartupLocation="CenterOwner">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20">
+        <StackPanel>
+            <TextBlock Text="{Binding Title}" Style="{StaticResource HeaderText}" TextWrapping="Wrap" />
+
+            <ItemsControl ItemsSource="{Binding Fields}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,0,0,12">
+                            <TextBlock Text="{Binding Label}" Style="{StaticResource LabelText}" />
+                            <DockPanel>
+                                <Button DockPanel.Dock="Right" Content="Copy" Padding="8,2" Margin="8,0,0,0"
+                                        Click="CopyField_Click" Tag="{Binding Value}" />
+                                <TextBox Text="{Binding Value, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap"
+                                         BorderThickness="0" Background="Transparent" Padding="0" />
+                            </DockPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <StackPanel Visibility="{Binding Tags.Count, Converter={StaticResource CountToVisibility}}" Margin="0,0,0,12">
+                <TextBlock Text="Tags" Style="{StaticResource LabelText}" />
+                <ItemsControl ItemsSource="{Binding Tags}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#22000000" CornerRadius="10" Padding="8,2" Margin="0,0,6,6">
+                                <TextBlock Text="{Binding}" FontSize="12" />
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            <StackPanel Visibility="{Binding CustomFields.Count, Converter={StaticResource CountToVisibility}}">
+                <TextBlock Text="Custom fields" Style="{StaticResource LabelText}" Margin="0,0,0,6" />
+                <ItemsControl ItemsSource="{Binding CustomFields}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,0,0,12">
+                                <TextBlock Text="{Binding Label}" Style="{StaticResource LabelText}" />
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Right" Content="Copy" Padding="8,2" Margin="8,0,0,0"
+                                            Click="CopyField_Click" Tag="{Binding Value}" />
+                                    <TextBox Text="{Binding Value, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap"
+                                             BorderThickness="0" Background="Transparent" Padding="0" />
+                                </DockPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            <Button Content="Close" HorizontalAlignment="Right" Padding="16,6" Margin="0,10,0,0"
+                    Click="Close_Click" />
+        </StackPanel>
+    </ScrollViewer>
+</Window>
