@@ -6,76 +6,88 @@
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
-        <HierarchicalDataTemplate DataType="{x:Type vm:FolderNodeViewModel}" ItemsSource="{Binding Children}">
-            <TextBlock Text="{Binding Label}" />
-        </HierarchicalDataTemplate>
-
         <ContextMenu x:Key="EntryContextMenu">
-            <MenuItem Header="Copy Username" Click="CopyUsernameMenuItem_Click" />
-            <MenuItem Header="Copy Password" Click="CopyPasswordMenuItem_Click" InputGestureText="Ctrl+C" />
+            <MenuItem Header="Copy Username" Click="CopyUsernameMenuItem_Click" InputGestureText="Ctrl+C" />
+            <MenuItem Header="Copy Password" Click="CopyPasswordMenuItem_Click" InputGestureText="Double-click" />
             <Separator />
             <MenuItem Header="Details..." Click="Details_Click" />
         </ContextMenu>
     </Window.Resources>
 
-    <DockPanel Margin="10">
-        <!-- Toolbar -->
-        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                <Button Content="Refresh" Command="{Binding RefreshCommand}" Style="{StaticResource ToolbarButton}" />
-                <Button Content="Sign out" Command="{Binding SignOutCommand}" Style="{StaticResource ToolbarButton}" />
-                <ProgressBar Width="18" Height="18" IsIndeterminate="True" Margin="6,0"
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Refresh" Command="{Binding RefreshCommand}" />
+                <MenuItem Header="Sign _Out" Command="{Binding SignOutCommand}" />
+                <Separator />
+                <MenuItem Header="E_xit" Click="Exit_Click" />
+            </MenuItem>
+        </Menu>
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Text="{Binding StatusMessage}"
+                           Visibility="{Binding StatusMessage, Converter={StaticResource StringToVisibility}}" />
+            </StatusBarItem>
+            <StatusBarItem>
+                <ProgressBar Width="100" Height="14" IsIndeterminate="True"
                              Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}" />
-            </StackPanel>
-            <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" Opacity="0.6" Margin="10,0,0,0"
-                       Text="{Binding LastSyncedUtc, StringFormat='Last synced: {0:g} UTC'}" />
-            <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                     VerticalContentAlignment="Center" Padding="6,3"
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock Text="{Binding LastSyncedUtc, StringFormat='Last synced: {0:g} UTC'}" />
+            </StatusBarItem>
+        </StatusBar>
+
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Row="0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     VerticalContentAlignment="Center" Padding="6,3" Margin="0,0,0,8"
                      ToolTip="Search entries by name, username, URL or notes" />
-        </DockPanel>
 
-        <TextBlock DockPanel.Dock="Top" Text="{Binding ErrorMessage}" Foreground="Firebrick" Margin="0,0,0,8"
-                   Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibility}}" TextWrapping="Wrap" />
+            <TextBlock Grid.Row="1" Text="{Binding ErrorMessage}" Foreground="Firebrick" Margin="0,0,0,8"
+                       Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibility}}" TextWrapping="Wrap" />
 
-        <TextBlock DockPanel.Dock="Bottom" Text="{Binding StatusMessage}" Opacity="0.7" Margin="0,6,0,0"
-                   Visibility="{Binding StatusMessage, Converter={StaticResource StringToVisibility}}" />
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <DockPanel Grid.Column="0" Margin="0,0,10,0">
-                <Button DockPanel.Dock="Top" Content="All Passwords" HorizontalContentAlignment="Left"
-                        Command="{Binding ShowAllFoldersCommand}" Margin="0,0,0,6" Padding="6,4" />
-                <TreeView x:Name="FolderTree" ItemsSource="{Binding Tree}"
-                          SelectedItemChanged="FolderTree_SelectedItemChanged" />
-            </DockPanel>
-
-            <ListView Grid.Column="1" x:Name="EntriesList" ItemsSource="{Binding Entries}"
-                      PreviewKeyDown="EntriesList_PreviewKeyDown">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="ContextMenu" Value="{StaticResource EntryContextMenu}" />
+            <TreeView Grid.Row="2" x:Name="FolderTree" ItemsSource="{Binding Tree}"
+                      MouseDoubleClick="FolderTree_MouseDoubleClick"
+                      PreviewKeyDown="FolderTree_PreviewKeyDown">
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="Padding" Value="2,5" />
                     </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name" Width="220" DisplayMemberBinding="{Binding Label}" />
-                        <GridViewColumn Header="Username" Width="200" DisplayMemberBinding="{Binding Username}" />
-                        <GridViewColumn Header="URL" Width="240" DisplayMemberBinding="{Binding Url}" />
-                        <GridViewColumn Header="Updated" Width="140" DisplayMemberBinding="{Binding Updated, StringFormat='{}{0:d}'}" />
-                        <GridViewColumn Header="" Width="40">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Content="..." Padding="6,0" Click="Details_Click" ToolTip="Details" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+                </TreeView.ItemContainerStyle>
+
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type vm:FolderNodeViewModel}" ItemsSource="{Binding Items}">
+                        <StackPanel Orientation="Horizontal">
+                            <Canvas Width="16" Height="14" Margin="0,0,8,0" VerticalAlignment="Center">
+                                <Rectangle Canvas.Left="0" Canvas.Top="0" Width="7" Height="3"
+                                           RadiusX="1" RadiusY="1" Fill="#F2C94C" />
+                                <Rectangle Canvas.Left="0" Canvas.Top="2" Width="16" Height="11"
+                                           RadiusX="1.5" RadiusY="1.5" Fill="#F2C94C" />
+                            </Canvas>
+                            <TextBlock Text="{Binding Label}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+
+                    <DataTemplate DataType="{x:Type vm:PasswordEntryViewModel}">
+                        <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource EntryContextMenu}"
+                                    ToolTip="Double-click to copy password, Ctrl+C to copy username">
+                            <Canvas Width="16" Height="14" Margin="0,0,8,0" VerticalAlignment="Center">
+                                <Ellipse Canvas.Left="0" Canvas.Top="3" Width="8" Height="8"
+                                         Stroke="#27AE60" StrokeThickness="2" />
+                                <Rectangle Canvas.Left="7" Canvas.Top="6" Width="7" Height="2" Fill="#27AE60" />
+                                <Rectangle Canvas.Left="11.5" Canvas.Top="7.5" Width="1.5" Height="2.5" Fill="#27AE60" />
+                            </Canvas>
+                            <TextBlock Text="{Binding DisplayLabel}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </TreeView.Resources>
+            </TreeView>
         </Grid>
     </DockPanel>
 </Window>

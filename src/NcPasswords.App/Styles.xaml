@@ -15,9 +15,4 @@
         <Setter Property="Margin" Value="0,0,0,16" />
     </Style>
 
-    <Style TargetType="Button" x:Key="ToolbarButton">
-        <Setter Property="Padding" Value="10,4" />
-        <Setter Property="Margin" Value="0,0,6,0" />
-    </Style>
-
 </ResourceDictionary>

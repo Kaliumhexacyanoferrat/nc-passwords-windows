@@ -12,6 +12,10 @@
             <local:InverseBooleanConverter x:Key="InverseBool" />
             <local:StringToVisibilityConverter x:Key="StringToVisibility" />
             <local:CountToVisibilityConverter x:Key="CountToVisibility" />
+
+            <Style TargetType="Window">
+                <Setter Property="Icon" Value="pack://application:,,,/Assets/app.ico" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

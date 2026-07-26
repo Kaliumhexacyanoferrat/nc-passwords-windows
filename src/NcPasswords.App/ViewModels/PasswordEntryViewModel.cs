@@ -14,4 +14,7 @@ public sealed class PasswordEntryViewModel(PasswordEntry entry)
     public string Url => Entry.Url;
     public bool Favorite => Entry.Favorite;
     public DateTimeOffset Updated => Entry.UpdatedAt;
+
+    /// <summary>"Label [Username]" for the combined folder/entry tree - falls back to just the label when there's no username.</summary>
+    public string DisplayLabel => string.IsNullOrEmpty(Username) ? Label : $"{Label} [{Username}]";
 }

@@ -14,6 +14,8 @@ public partial class App : Application
     // would return the window we just showed, and closing "the previous window" would close it too.
     private static Window? _currentWindow;
 
+    private static TrayIcon? _trayIcon;
+
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
@@ -21,9 +23,11 @@ public partial class App : Application
         DispatcherUnhandledException += OnDispatcherUnhandledException;
         AppDomain.CurrentDomain.UnhandledException += OnAppDomainUnhandledException;
         TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
+        Exit += (_, _) => _trayIcon?.Dispose();
 
         try
         {
+            _trayIcon = new TrayIcon();
             var credentialStore = new CredentialStore();
             var stored = credentialStore.Load();
 
@@ -82,6 +86,18 @@ public partial class App : Application
         }
     }
 
+    public static void ExitApplication()
+    {
+        if (_trayIcon is not null)
+        {
+            _trayIcon.Exit();
+        }
+        else
+        {
+            Current.Shutdown();
+        }
+    }
+
     public static void ShowLogin()
     {
         var loginViewModel = new LoginViewModel(onLoggedIn: ShowMain);
@@ -93,6 +109,7 @@ public partial class App : Application
     {
         var mainViewModel = new MainViewModel(credentials, onSignedOut: ShowLogin);
         var mainWindow = new MainWindow { DataContext = mainViewModel };
+        _trayIcon?.AttachTo(mainWindow);
         SwapWindow(mainWindow);
 
         _ = mainViewModel.InitializeAsync().ContinueWith(
@@ -106,6 +123,14 @@ public partial class App : Application
         _currentWindow = next;
         Current.MainWindow = next;
         next.Show();
-        previous?.Close();
+
+        if (previous is not null)
+        {
+            // The tray icon only hides-instead-of-closes windows it was explicitly attached to
+            // (the main window); detaching here ensures a real transition (e.g. sign-out) closes
+            // the previous window for good instead of leaving it hidden and alive in the tray.
+            _trayIcon?.Detach(previous);
+            previous.Close();
+        }
     }
 }

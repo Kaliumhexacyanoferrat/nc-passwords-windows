@@ -13,15 +13,20 @@ public partial class MainWindow : Window
 
     private MainViewModel ViewModel => (MainViewModel)DataContext;
 
-    private void FolderTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) =>
-        ViewModel.SelectFolder(e.NewValue as FolderNodeViewModel);
-
-    private void EntriesList_PreviewKeyDown(object sender, KeyEventArgs e)
+    private void FolderTree_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control &&
-            EntriesList.SelectedItem is PasswordEntryViewModel entry)
+        if (FolderTree.SelectedItem is PasswordEntryViewModel entry)
         {
             ViewModel.CopyPassword(entry);
+        }
+    }
+
+    private void FolderTree_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control &&
+            FolderTree.SelectedItem is PasswordEntryViewModel entry)
+        {
+            ViewModel.CopyUsername(entry);
             e.Handled = true;
         }
     }
@@ -50,4 +55,6 @@ public partial class MainWindow : Window
             window.ShowDialog();
         }
     }
+
+    private void Exit_Click(object sender, RoutedEventArgs e) => App.ExitApplication();
 }

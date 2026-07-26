@@ -21,7 +21,6 @@ public partial class MainViewModel : ObservableObject
 
     private List<PasswordEntry> _allPasswords = [];
     private List<Folder> _allFolders = [];
-    private string? _selectedFolderId;
     private DispatcherTimer? _clipboardClearTimer;
 
     public MainViewModel(StoredCredentials credentials, Action onSignedOut)
@@ -30,8 +29,8 @@ public partial class MainViewModel : ObservableObject
         _onSignedOut = onSignedOut;
     }
 
-    public ObservableCollection<PasswordEntryViewModel> Entries { get; } = [];
-    public ObservableCollection<FolderNodeViewModel> Tree { get; } = [];
+    /// <summary>Combined folder/entry tree - items are either <see cref="FolderNodeViewModel"/> or <see cref="PasswordEntryViewModel"/>.</summary>
+    public ObservableCollection<object> Tree { get; } = [];
 
     [ObservableProperty]
     private string _searchText = "";
@@ -105,19 +104,6 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ShowAllFolders()
-    {
-        _selectedFolderId = null;
-        ApplyFilter();
-    }
-
-    public void SelectFolder(FolderNodeViewModel? node)
-    {
-        _selectedFolderId = node?.FolderId;
-        ApplyFilter();
-    }
-
-    [RelayCommand]
     private void SignOut()
     {
         _clipboardClearTimer?.Stop();
@@ -140,27 +126,19 @@ public partial class MainViewModel : ObservableObject
         _allPasswords = passwords;
         _allFolders = folders;
 
-        Tree.Clear();
-        foreach (var node in FolderNodeViewModel.BuildFrom(FolderTreeBuilder.Build(folders, passwords)))
-        {
-            Tree.Add(node);
-        }
-
         ApplyFilter();
     }
 
     private void ApplyFilter()
     {
-        IReadOnlyList<PasswordEntry> source = _selectedFolderId is null
-            ? _allPasswords
-            : _allPasswords.Where(p => p.Folder == _selectedFolderId).ToList();
+        var isSearching = !string.IsNullOrWhiteSpace(SearchText);
+        var passwords = isSearching ? EntrySearch.Filter(_allPasswords, SearchText) : _allPasswords;
+        var folderNodes = FolderTreeBuilder.Build(_allFolders, passwords);
 
-        var filtered = EntrySearch.Filter(source, SearchText);
-
-        Entries.Clear();
-        foreach (var entry in filtered.OrderBy(e => e.Label, StringComparer.OrdinalIgnoreCase))
+        Tree.Clear();
+        foreach (var item in FolderNodeViewModel.BuildRoot(folderNodes, pruneEmptyFolders: isSearching))
         {
-            Entries.Add(new PasswordEntryViewModel(entry));
+            Tree.Add(item);
         }
     }
 
