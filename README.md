@@ -28,4 +28,14 @@ dotnet run --project src/NcPasswords.App/NcPasswords.App.csproj
 
 ## Releasing
 
-Releases are built manually via the **Release** GitHub Actions workflow (`workflow_dispatch`), which publishes a `win-x64` build and attaches it as a ZIP to a new GitHub release.
+Releases are built manually via the **Release** GitHub Actions workflow (`workflow_dispatch`), which publishes a
+self-contained `win-x64` build and attaches two assets to a new GitHub release:
+
+- `NcPasswords-<version>-win-x64.zip` — the raw published files.
+- `NcPasswords-Setup-<version>.exe` — an installer built with [Inno Setup](https://jrsoftware.org/isinfo.php)
+  (`installer/NcPasswords.iss`), installing per-user by default (no admin required) with Start Menu and optional
+  desktop shortcuts.
+
+The installer is unsigned — no code signing certificate is required to submit to winget, but users will see a
+SmartScreen "unknown publisher" warning on first run. See `winget/README.md` for updating the winget manifest
+after a release.

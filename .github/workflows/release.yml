@@ -34,7 +34,7 @@ jobs:
           dotnet publish src/NcPasswords.App/NcPasswords.App.csproj
           -c Release
           -r win-x64
-          --self-contained false
+          --self-contained true
           -o publish
           -p:Version=${{ inputs.version }}
 
@@ -42,11 +42,20 @@ jobs:
         shell: pwsh
         run: Compress-Archive -Path publish/* -DestinationPath NcPasswords-${{ inputs.version }}-win-x64.zip
 
+      - name: Build installer
+        shell: pwsh
+        run: >
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          installer\NcPasswords.iss
+          /DPublishDir=${{ github.workspace }}\publish
+          /DAppVersion=${{ inputs.version }}
+
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >
           gh release create v${{ inputs.version }}
           NcPasswords-${{ inputs.version }}-win-x64.zip
+          artifacts/NcPasswords-Setup-${{ inputs.version }}.exe
           --title "v${{ inputs.version }}"
           --generate-notes
