@@ -105,15 +105,15 @@
 
   .shot-card{
     margin-top: 56px;
-    background: linear-gradient(180deg, #EDF4FA, #E4EEF6);
+    background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 24px;
     padding: clamp(16px, 4vw, 40px);
     display: flex; justify-content: center;
+    box-shadow: 0 40px 80px -35px rgba(11,42,74,.28);
   }
   .shot-card img{
     border-radius: 12px;
-    box-shadow: 0 30px 60px -25px rgba(11,42,74,.35), 0 2px 0 rgba(11,42,74,.04);
     width: 100%; max-width: 640px;
   }
 
@@ -159,6 +159,7 @@
   }
   .tree-row.folder{ font-weight: 600; }
   .tree-row.entry{ margin-left: 22px; color: var(--ink); }
+  .tree-row.entry.root{ margin-left: 0; }
   .tree-row .muted{ color: var(--muted); font-weight: 400; }
   .tree-row:hover{ background: #F2F7FB; }
 
@@ -327,9 +328,13 @@
           </div>
           <div class="tree-row entry">
             <svg width="16" height="14" viewBox="0 0 16 14"><circle cx="4" cy="7" r="4" fill="none" stroke="#1E9E5A" stroke-width="2"/><rect x="7" y="6" width="7" height="2" fill="#1E9E5A"/><rect x="11.5" y="7.5" width="1.5" height="2.5" fill="#1E9E5A"/></svg>
+            eBay <span class="muted">&nbsp;[jane.doe]</span>
+          </div>
+          <div class="tree-row entry root">
+            <svg width="16" height="14" viewBox="0 0 16 14"><circle cx="4" cy="7" r="4" fill="none" stroke="#1E9E5A" stroke-width="2"/><rect x="7" y="6" width="7" height="2" fill="#1E9E5A"/><rect x="11.5" y="7.5" width="1.5" height="2.5" fill="#1E9E5A"/></svg>
             Nextcloud <span class="muted">&nbsp;[JohnDoe]</span>
           </div>
-          <div class="tree-row entry">
+          <div class="tree-row entry root">
             <svg width="16" height="14" viewBox="0 0 16 14"><circle cx="4" cy="7" r="4" fill="none" stroke="#1E9E5A" stroke-width="2"/><rect x="7" y="6" width="7" height="2" fill="#1E9E5A"/><rect x="11.5" y="7.5" width="1.5" height="2.5" fill="#1E9E5A"/></svg>
             Router admin <span class="muted">&nbsp;[admin]</span>
           </div>
