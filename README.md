@@ -4,6 +4,8 @@ NcPasswords is a simple Windows app for browsing your Nextcloud [Passwords](http
 entries without opening a browser. You sign in once, and can then look up, search and copy your saved logins
 straight from the desktop.
 
+[![Download for Windows](https://img.shields.io/badge/Download-NcPasswords_v0.1.0-0082C9?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.1.0/NcPasswords-Setup-0.1.0.exe)
+
 > **Disclaimer:** This project - including parts of its code and documentation - was built with the help of
 > Claude (Anthropic's AI coding assistant). It hasn't been reviewed by a third-party security audit. As with any
 > tool that handles your passwords, please use your own judgment, especially if you're storing sensitive
@@ -52,6 +54,8 @@ run it. This is expected - click "More info" and then "Run anyway" to continue.
 - `src/NcPasswords.App` - the WPF user interface (MVVM via CommunityToolkit.Mvvm).
 - `tests/NcPasswords.Core.Tests` - unit tests for the API client, cache, folder tree and search.
 - `installer/` - the Inno Setup script used to build the installer.
+- `docs/` - the source for the project's one-page website (GitHub Pages, once enabled under
+  Settings → Pages → Deploy from branch → `main` / `docs`).
 
 Build and run from source with:
 

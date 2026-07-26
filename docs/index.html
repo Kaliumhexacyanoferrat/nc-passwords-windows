@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NcPasswords — Nextcloud Passwords for Windows</title>
+<meta name="description" content="A small, fast Windows app for the passwords you already keep in Nextcloud. Sign in once, then look up, search and copy your logins from the desktop — encrypted on your PC, always.">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F6F9FC;
+    --surface: #FFFFFF;
+    --ink: #16232E;
+    --muted: #55677A;
+    --line: #E1E9F0;
+    --brand: #0082C9;
+    --brand-dark: #00679E;
+    --navy: #0B2A4A;
+    --navy-ink: #DCEBFA;
+    --yellow: #F2C94C;
+    --green: #1E9E5A;
+    --radius: 16px;
+    --max: 1080px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  h1, h2, h3{
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  code, .mono{ font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  a{ color: var(--brand-dark); }
+  img{ max-width: 100%; display: block; }
+  .wrap{ max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- nav ---------- */
+  .nav{
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(246,249,252,.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav .wrap{
+    height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .brand{ display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .brand img{ width: 30px; height: 30px; border-radius: 8px; }
+  .brand span{ font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.05rem; }
+  .nav-links{ display: flex; align-items: center; gap: 28px; }
+  .nav-links a{ color: var(--muted); text-decoration: none; font-size: .94rem; font-weight: 500; }
+  .nav-links a:hover{ color: var(--ink); }
+  .btn{
+    display: inline-flex; align-items: center; gap: 8px;
+    border-radius: 999px; font-weight: 600; text-decoration: none;
+    font-family: 'Inter', sans-serif; cursor: pointer; border: 1px solid transparent;
+    transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+  }
+  .btn:active{ transform: translateY(1px); }
+  .btn-primary{
+    background: var(--brand); color: #fff;
+    box-shadow: 0 8px 20px -8px rgba(0,130,201,.55);
+  }
+  .btn-primary:hover{ background: var(--brand-dark); }
+  .btn-ghost{ background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn-ghost:hover{ border-color: var(--brand); color: var(--brand-dark); }
+  .btn-sm{ padding: 8px 16px; font-size: .88rem; }
+  .btn-lg{ padding: 15px 28px; font-size: 1rem; }
+
+  /* ---------- hero ---------- */
+  .hero{ padding: 76px 0 40px; }
+  .eyebrow{
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: .78rem; font-weight: 500;
+    letter-spacing: .04em; color: var(--brand-dark);
+    background: #E7F3FB; border: 1px solid #CDE7F6;
+    padding: 5px 12px; border-radius: 999px;
+    margin-bottom: 20px;
+  }
+  .hero h1{
+    font-size: clamp(2.3rem, 4.4vw, 3.4rem);
+    line-height: 1.06;
+    max-width: 16ch;
+  }
+  .hero-sub{
+    margin-top: 20px; color: var(--muted); font-size: 1.14rem; max-width: 56ch;
+  }
+  .cta-row{ display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 30px; }
+  .cta-meta{ font-size: .85rem; color: var(--muted); }
+  .cta-meta code{ background: #ECF1F6; padding: 2px 6px; border-radius: 5px; font-size: .8rem; }
+
+  .shot-card{
+    margin-top: 56px;
+    background: linear-gradient(180deg, #EDF4FA, #E4EEF6);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: clamp(16px, 4vw, 40px);
+    display: flex; justify-content: center;
+  }
+  .shot-card img{
+    border-radius: 12px;
+    box-shadow: 0 30px 60px -25px rgba(11,42,74,.35), 0 2px 0 rgba(11,42,74,.04);
+    width: 100%; max-width: 640px;
+  }
+
+  /* ---------- trust band ---------- */
+  .trust{ background: var(--navy); color: var(--navy-ink); padding: 72px 0; margin-top: 88px; }
+  .trust .eyebrow{ background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.14); color: #8FD9B4; }
+  .trust h2{ color: #fff; font-size: clamp(1.7rem, 3vw, 2.2rem); max-width: 24ch; }
+  .trust-grid{
+    margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+  }
+  .trust-card{
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: var(--radius);
+    padding: 22px;
+  }
+  .trust-card svg{ flex-shrink: 0; }
+  .trust-card .row{ display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .trust-card h3{ color: #fff; font-size: 1.02rem; }
+  .trust-card p{ margin: 0; color: #B9CBE0; font-size: .93rem; }
+
+  /* ---------- features ---------- */
+  .features{ padding: 96px 0; }
+  .section-head{ max-width: 640px; }
+  .section-head h2{ font-size: clamp(1.7rem, 3vw, 2.2rem); margin-top: 10px; }
+  .section-head p{ color: var(--muted); margin-top: 14px; font-size: 1.05rem; }
+
+  .feature-layout{
+    margin-top: 48px; display: grid; grid-template-columns: 1fr 1.1fr; gap: 48px; align-items: start;
+  }
+  .feature-text-list{ list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+  .feature-text-list li{ padding-left: 20px; border-left: 2px solid var(--line); }
+  .feature-text-list strong{ display: block; font-size: 1rem; margin-bottom: 4px; }
+  .feature-text-list span{ color: var(--muted); font-size: .93rem; }
+
+  .tree-card{
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 10px; box-shadow: 0 24px 48px -30px rgba(11,42,74,.25);
+  }
+  .tree-row{
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 10px; border-radius: 8px; font-size: .93rem;
+  }
+  .tree-row.folder{ font-weight: 600; }
+  .tree-row.entry{ margin-left: 22px; color: var(--ink); }
+  .tree-row .muted{ color: var(--muted); font-weight: 400; }
+  .tree-row:hover{ background: #F2F7FB; }
+
+  /* ---------- install ---------- */
+  .install{ background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 96px 0; }
+  .install-grid{ margin-top: 44px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .step{ position: relative; padding-top: 6px; }
+  .step-num{
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.6rem;
+    color: var(--brand); margin-bottom: 10px; display: block;
+  }
+  .step h3{ font-size: 1.02rem; margin-bottom: 6px; }
+  .step p{ margin: 0; color: var(--muted); font-size: .93rem; }
+
+  .install-cta{ margin-top: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+  .callout{
+    margin-top: 28px; display: flex; gap: 12px; align-items: flex-start;
+    background: #FFF8E8; border: 1px solid #F2E3B8; border-radius: 12px; padding: 16px 18px;
+    color: #6B5518; font-size: .9rem; max-width: 62ch;
+  }
+  .callout svg{ flex-shrink: 0; margin-top: 2px; }
+
+  /* ---------- footer ---------- */
+  footer{ padding: 56px 0 40px; }
+  .footer-grid{ display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+  .footer-brand{ display: flex; align-items: center; gap: 10px; }
+  .footer-brand img{ width: 24px; height: 24px; border-radius: 6px; }
+  .footer-links{ display: flex; gap: 24px; flex-wrap: wrap; }
+  .footer-links a{ color: var(--muted); text-decoration: none; font-size: .9rem; }
+  .footer-links a:hover{ color: var(--ink); }
+  .disclaimer{
+    margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line);
+    color: var(--muted); font-size: .82rem; max-width: 78ch;
+  }
+
+  @media (max-width: 860px){
+    .nav-links{ display: none; }
+    .trust-grid{ grid-template-columns: 1fr; }
+    .feature-layout{ grid-template-columns: 1fr; }
+    .install-grid{ grid-template-columns: 1fr; }
+    .footer-grid{ flex-direction: column; }
+  }
+
+  :focus-visible{ outline: 2px solid var(--brand); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <img src="assets/logo-512.png" alt="">
+      <span>NcPasswords</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#security">Security</a>
+      <a href="#features">Features</a>
+      <a href="#install">Install</a>
+      <a href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows">GitHub</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.1.0/NcPasswords-Setup-0.1.0.exe">Download</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">FOR NEXTCLOUD PASSWORDS</span>
+      <h1>Your passwords,<br>without the browser.</h1>
+      <p class="hero-sub">
+        NcPasswords is a small Windows app for the vault you already keep in Nextcloud.
+        Sign in once, then look up, search and copy your logins straight from the desktop —
+        and everything it stores stays encrypted on your own PC.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary btn-lg" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.1.0/NcPasswords-Setup-0.1.0.exe">
+          Download for Windows
+        </a>
+        <a class="btn btn-ghost btn-lg" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.1.0/NcPasswords-0.1.0-win-x64.zip">
+          Portable ZIP
+        </a>
+        <span class="cta-meta"><code>v0.1.0</code> · Windows 10/11 · free &amp; open source</span>
+      </div>
+
+      <div class="shot-card">
+        <img src="assets/screenshot.png" alt="NcPasswords window showing a Shopping folder and a Nextcloud entry with username JohnDoe, and a last-synced status bar.">
+      </div>
+    </div>
+  </section>
+
+  <section class="trust" id="security">
+    <div class="wrap">
+      <span class="eyebrow">LOCAL BY DESIGN</span>
+      <h2>Your secrets never leave this PC unencrypted.</h2>
+      <div class="trust-grid">
+        <div class="trust-card">
+          <div class="row">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="8" rx="2" fill="#1E9E5A"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9" stroke="#1E9E5A" stroke-width="1.8" fill="none"/></svg>
+            <h3>Encrypted at rest</h3>
+          </div>
+          <p>Your Nextcloud login is protected the moment you sign in, using Windows' own per-user encryption (DPAPI) — readable only by your Windows account, on this PC.</p>
+        </div>
+        <div class="trust-card">
+          <div class="row">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2v16M4 6l6-4 6 4M4 6v9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6" stroke="#1E9E5A" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg>
+            <h3>Works offline</h3>
+          </div>
+          <p>Your passwords are cached the same way, locally, so NcPasswords keeps working without a connection — and never hands your vault to anyone else.</p>
+        </div>
+        <div class="trust-card">
+          <div class="row">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.2" stroke="#1E9E5A" stroke-width="1.8"/><path d="M6.8 10.3l2 2 4.4-4.6" stroke="#1E9E5A" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>Talks only to your server</h3>
+          </div>
+          <p>No analytics, no relay, no other backend. NcPasswords only ever calls the Nextcloud server address you give it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">WHAT IT DOES</span>
+        <h2>Everything you need, nothing you don't.</h2>
+        <p>NcPasswords keeps its interface as small as the job it does — one combined tree for browsing, one shortcut for copying, and the rest tucked out of sight until you ask for it.</p>
+      </div>
+
+      <div class="feature-layout">
+        <ul class="feature-text-list">
+          <li>
+            <strong>One combined tree</strong>
+            <span>Folders and entries live together, in the classic layout made popular by Password Safe — expand what you need, ignore the rest.</span>
+          </li>
+          <li>
+            <strong>Just a name and a username</strong>
+            <span>Entries show only what helps you pick the right one. Notes, URLs, custom fields and tags stay one click away, in the details view.</span>
+          </li>
+          <li>
+            <strong>Copy without touching the mouse twice</strong>
+            <span>Double-click an entry to copy its password, or press Ctrl+C to copy its username. Either way, your clipboard clears itself after 30 seconds.</span>
+          </li>
+          <li>
+            <strong>Search as you type</strong>
+            <span>Filters instantly across name, username, URL and notes — folders collapse down to just the matches.</span>
+          </li>
+          <li>
+            <strong>Lives in the tray</strong>
+            <span>Closing the window doesn't quit the app — it's ready the moment you need the next password.</span>
+          </li>
+        </ul>
+
+        <div class="tree-card" aria-hidden="true">
+          <div class="tree-row folder">
+            <svg width="16" height="14" viewBox="0 0 16 14"><rect x="0" y="0" width="7" height="3" rx="1" fill="#F2C94C"/><rect x="0" y="2" width="16" height="11" rx="1.5" fill="#F2C94C"/></svg>
+            Banking
+          </div>
+          <div class="tree-row folder">
+            <svg width="16" height="14" viewBox="0 0 16 14"><rect x="0" y="0" width="7" height="3" rx="1" fill="#F2C94C"/><rect x="0" y="2" width="16" height="11" rx="1.5" fill="#F2C94C"/></svg>
+            Shopping
+          </div>
+          <div class="tree-row entry">
+            <svg width="16" height="14" viewBox="0 0 16 14"><circle cx="4" cy="7" r="4" fill="none" stroke="#1E9E5A" stroke-width="2"/><rect x="7" y="6" width="7" height="2" fill="#1E9E5A"/><rect x="11.5" y="7.5" width="1.5" height="2.5" fill="#1E9E5A"/></svg>
+            Amazon <span class="muted">&nbsp;[jane.doe]</span>
+          </div>
+          <div class="tree-row entry">
+            <svg width="16" height="14" viewBox="0 0 16 14"><circle cx="4" cy="7" r="4" fill="none" stroke="#1E9E5A" stroke-width="2"/><rect x="7" y="6" width="7" height="2" fill="#1E9E5A"/><rect x="11.5" y="7.5" width="1.5" height="2.5" fill="#1E9E5A"/></svg>
+            Nextcloud <span class="muted">&nbsp;[JohnDoe]</span>
+          </div>
+          <div class="tree-row entry">
+            <svg width="16" height="14" viewBox="0 0 16 14"><circle cx="4" cy="7" r="4" fill="none" stroke="#1E9E5A" stroke-width="2"/><rect x="7" y="6" width="7" height="2" fill="#1E9E5A"/><rect x="11.5" y="7.5" width="1.5" height="2.5" fill="#1E9E5A"/></svg>
+            Router admin <span class="muted">&nbsp;[admin]</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="install" id="install">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">GET STARTED</span>
+        <h2>Installed in under a minute.</h2>
+      </div>
+
+      <div class="install-grid">
+        <div class="step">
+          <span class="step-num">01</span>
+          <h3>Download the installer</h3>
+          <p>One file, below — no account or sign-up needed to grab it.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <h3>Run it</h3>
+          <p>Installs just for your Windows account, so no administrator rights are required.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <h3>Sign in</h3>
+          <p>Enter your Nextcloud server address, username and password — use an app password if you have two-factor authentication on.</p>
+        </div>
+      </div>
+
+      <div class="install-cta">
+        <a class="btn btn-primary btn-lg" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.1.0/NcPasswords-Setup-0.1.0.exe">
+          Download for Windows
+        </a>
+        <a class="btn btn-ghost btn-lg" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.1.0/NcPasswords-0.1.0-win-x64.zip">
+          Portable ZIP
+        </a>
+        <span class="cta-meta">Prefer to build it yourself? <a href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows#for-developers">Source on GitHub →</a></span>
+      </div>
+
+      <div class="callout">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#6B5518" stroke-width="1.6"/><path d="M10 6v5" stroke="#6B5518" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="14" r="1" fill="#6B5518"/></svg>
+        <span>NcPasswords isn't digitally signed yet, so Windows may show a blue "unknown publisher" warning the first time you run it. That's expected — choose <strong>More info → Run anyway</strong> to continue.</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <a class="footer-brand" href="#top">
+        <img src="assets/logo-512.png" alt="">
+        <span>NcPasswords</span>
+      </a>
+      <nav class="footer-links">
+        <a href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows">GitHub repo</a>
+        <a href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/latest">Releases</a>
+        <a href="https://apps.nextcloud.com/apps/passwords">Nextcloud Passwords</a>
+        <a href="https://github.com/pwsafe/pwsafe">Password Safe</a>
+      </nav>
+    </div>
+    <p class="disclaimer">
+      NcPasswords is an independent, MIT-licensed project and isn't affiliated with Nextcloud GmbH.
+      Its navigation style is deliberately modeled after Password Safe.
+      This project — including parts of its code and documentation — was built with the help of Claude
+      (Anthropic's AI coding assistant) and hasn't been reviewed by a third-party security audit.
+      As with any tool that handles your passwords, please use your own judgment, especially for sensitive accounts.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
