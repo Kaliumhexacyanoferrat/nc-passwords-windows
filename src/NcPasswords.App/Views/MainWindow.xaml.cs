@@ -6,9 +6,13 @@ namespace NcPasswords.App.Views;
 
 public partial class MainWindow : Window
 {
+    private const string PlacementKey = "Main";
+
     public MainWindow()
     {
         InitializeComponent();
+        WindowPlacementStore.Apply(this, PlacementKey);
+        Closing += (_, _) => WindowPlacementStore.Save(this, PlacementKey);
     }
 
     private MainViewModel ViewModel => (MainViewModel)DataContext;

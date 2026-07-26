@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -46,6 +47,15 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty]
     private DateTimeOffset? _lastSyncedUtc;
+
+    /// <summary>"Last synced: ..." in the user's local time and locale, formatted explicitly with
+    /// <see cref="CultureInfo.CurrentCulture"/> rather than relying on WPF's binding-culture defaults
+    /// (which fall back to en-US regardless of the OS locale unless overridden app-wide).</summary>
+    public string? LastSyncedDisplay => LastSyncedUtc is { } value
+        ? $"Last synced: {value.ToLocalTime().ToString("g", CultureInfo.CurrentCulture)}"
+        : null;
+
+    partial void OnLastSyncedUtcChanged(DateTimeOffset? value) => OnPropertyChanged(nameof(LastSyncedDisplay));
 
     public async Task InitializeAsync()
     {

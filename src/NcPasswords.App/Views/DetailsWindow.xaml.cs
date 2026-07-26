@@ -6,10 +6,14 @@ namespace NcPasswords.App.Views;
 
 public partial class DetailsWindow : Window
 {
+    private const string PlacementKey = "Details";
+
     public DetailsWindow(PasswordEntry entry)
     {
         InitializeComponent();
         DataContext = new DetailsViewModel(entry);
+        WindowPlacementStore.Apply(this, PlacementKey);
+        Closing += (_, _) => WindowPlacementStore.Save(this, PlacementKey);
     }
 
     private void CopyField_Click(object sender, RoutedEventArgs e)

@@ -34,7 +34,7 @@
                              Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}" />
             </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right">
-                <TextBlock Text="{Binding LastSyncedUtc, StringFormat='Last synced: {0:g} UTC'}" />
+                <TextBlock Text="{Binding LastSyncedDisplay}" />
             </StatusBarItem>
         </StatusBar>
 
