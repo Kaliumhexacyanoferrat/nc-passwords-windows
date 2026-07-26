@@ -4,8 +4,8 @@ namespace NcPasswords.App.ViewModels;
 
 /// <summary>
 /// Binding-friendly wrapper around a <see cref="FolderNode"/> for a combined folder/entry tree view
-/// (à la Password Safe): each node's <see cref="Items"/> mixes child folders and the passwords stored
-/// directly in it, sorted together alphabetically.
+/// (à la Password Safe): each node's <see cref="Items"/> lists child folders before the passwords
+/// stored directly in it, alphabetically within each group.
 /// </summary>
 public sealed class FolderNodeViewModel
 {
@@ -56,15 +56,9 @@ public sealed class FolderNodeViewModel
     }
 
     private static List<object> Merge(IEnumerable<FolderNodeViewModel> folders, IEnumerable<PasswordEntryViewModel> passwords) =>
-        folders.Cast<object>()
-            .Concat(passwords)
-            .OrderBy(SortLabel, StringComparer.OrdinalIgnoreCase)
+        folders
+            .OrderBy(f => f.Label, StringComparer.OrdinalIgnoreCase)
+            .Cast<object>()
+            .Concat(passwords.OrderBy(p => p.Label, StringComparer.OrdinalIgnoreCase))
             .ToList();
-
-    private static string SortLabel(object item) => item switch
-    {
-        FolderNodeViewModel folder => folder.Label,
-        PasswordEntryViewModel password => password.Label,
-        _ => "",
-    };
 }
