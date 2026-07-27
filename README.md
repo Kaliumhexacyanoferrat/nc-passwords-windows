@@ -6,6 +6,9 @@
 entries without opening a browser. You sign in once, and can then look up, search and copy your saved logins
 straight from the desktop.
 
+> **Disclaimer:** This project was originally created to serve my own personal needs. It is shared here as open
+> source in the hope that others may find it useful as well.
+
 > **Disclaimer:** This project - including parts of its code and documentation - was built with the help of
 > Claude (Anthropic's AI coding assistant). It hasn't been reviewed by a third-party security audit. As with any
 > tool that handles your passwords, please use your own judgment, especially if you're storing sensitive
