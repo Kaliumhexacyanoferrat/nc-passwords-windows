@@ -15,18 +15,21 @@ public partial class MainViewModel : ObservableObject
     private static readonly TimeSpan ClipboardClearDelay = TimeSpan.FromSeconds(30);
 
     private readonly StoredCredentials _credentials;
+    private readonly byte[]? _unlockEntropy;
     private readonly Action _onSignedOut;
     private readonly CredentialStore _credentialStore = new();
     private readonly EntryCache _cache = new();
+    private readonly UnlockPasswordStore _unlockPasswordStore = new();
     private PasswordsApiClient? _client;
 
     private List<PasswordEntry> _allPasswords = [];
     private List<Folder> _allFolders = [];
     private DispatcherTimer? _clipboardClearTimer;
 
-    public MainViewModel(StoredCredentials credentials, Action onSignedOut)
+    public MainViewModel(StoredCredentials credentials, byte[]? unlockEntropy, Action onSignedOut)
     {
         _credentials = credentials;
+        _unlockEntropy = unlockEntropy;
         _onSignedOut = onSignedOut;
     }
 
@@ -59,7 +62,7 @@ public partial class MainViewModel : ObservableObject
 
     public async Task InitializeAsync()
     {
-        var cached = _cache.Load();
+        var cached = _cache.Load(_unlockEntropy);
         if (cached is not null)
         {
             ApplyData(cached.Passwords.ToList(), cached.Folders.ToList());
@@ -94,7 +97,7 @@ public partial class MainViewModel : ObservableObject
             ApplyData(passwords, folders);
 
             LastSyncedUtc = DateTimeOffset.UtcNow;
-            _cache.Save(new CachedData(passwords, folders, [], LastSyncedUtc.Value));
+            _cache.Save(new CachedData(passwords, folders, [], LastSyncedUtc.Value), _unlockEntropy);
         }
         catch (PasswordsApiException ex)
         {
@@ -119,6 +122,7 @@ public partial class MainViewModel : ObservableObject
         _clipboardClearTimer?.Stop();
         _credentialStore.Clear();
         _cache.Clear();
+        _unlockPasswordStore.Clear();
         _client?.Dispose();
         _onSignedOut();
     }

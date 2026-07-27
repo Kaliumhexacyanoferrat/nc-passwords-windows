@@ -24,6 +24,10 @@ straight from the desktop.
   have two-factor authentication turned on).
 - Your login details are stored securely on your own PC, encrypted so only your Windows user account can read
   them.
+- **Optional:** set an additional local password at sign-in to require it every time NcPasswords starts. Without
+  one, anything running under your Windows account can decrypt the saved data the same way NcPasswords does; with
+  one, decrypting it also requires that password, which is never itself written to disk. See
+  [Local password protection](#local-password-protection) below.
 - Your passwords are saved locally so the app still works if you're offline, and refresh automatically each
   time you open it.
 - Folders and entries appear together in one simple list, similar to the layout used by the well-known
@@ -38,6 +42,25 @@ straight from the desktop.
 
 **Note:** NcPasswords only works with accounts using Nextcloud's default encryption. If your account has
 client-side encryption turned on, you'll see a clear message explaining that it isn't supported.
+
+## Local password protection
+
+Everything NcPasswords stores on disk (your Nextcloud login and the cached entries) is encrypted with Windows'
+own per-user encryption (DPAPI). That protects it from other Windows accounts and from anyone who copies the
+files off your PC - but on its own, DPAPI doesn't protect it from other processes running under *your* Windows
+account. Any app you run - malware included - can ask Windows to decrypt the same data, the same way NcPasswords
+does, without needing to know anything about NcPasswords itself.
+
+To close that gap, you can set an **additional local password** in the "Additional local password (optional)"
+field when you sign in. If you set one:
+
+- NcPasswords asks for it every time it starts, before it will show any of your saved data.
+- The password itself is never written to disk - only a random, non-secret salt used to derive a key from it.
+- That derived key is required, together with your Windows account's own DPAPI key, to decrypt the stored data -
+  so another process running as you can no longer read it without also knowing your password.
+
+Leaving the field blank keeps the previous behavior (DPAPI protection only). Signing out clears this setting
+along with everything else, so you're asked to set it again (or not) the next time you sign in.
 
 ## Installing
 

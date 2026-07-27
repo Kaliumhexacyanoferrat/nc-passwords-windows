@@ -21,11 +21,11 @@ public sealed class EntryCache
         _path = path ?? AppPaths.CacheFile;
     }
 
-    public CachedData? Load()
+    public CachedData? Load(byte[]? unlockEntropy = null)
     {
         try
         {
-            return DpapiProtector.ReadProtectedJson<CachedData>(_path);
+            return DpapiProtector.ReadProtectedJson<CachedData>(_path, unlockEntropy);
         }
         catch (Exception)
         {
@@ -33,7 +33,8 @@ public sealed class EntryCache
         }
     }
 
-    public void Save(CachedData data) => DpapiProtector.WriteProtectedJson(_path, data);
+    public void Save(CachedData data, byte[]? unlockEntropy = null) =>
+        DpapiProtector.WriteProtectedJson(_path, data, unlockEntropy);
 
     public void Clear()
     {

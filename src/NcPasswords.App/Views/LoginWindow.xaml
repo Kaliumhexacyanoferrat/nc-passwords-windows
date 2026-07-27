@@ -3,11 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Sign in — Nextcloud Passwords"
         Icon="pack://application:,,,/Assets/app.ico"
-        Height="360" Width="420"
+        Height="460" Width="420"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
     <Grid Margin="24">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -36,10 +37,19 @@
             <PasswordBox x:Name="PasswordBox" Margin="0,4,0,4" KeyDown="PasswordBox_KeyDown" />
         </StackPanel>
 
-        <TextBlock Grid.Row="6" Text="{Binding ErrorMessage}" Foreground="Firebrick" TextWrapping="Wrap"
+        <StackPanel Grid.Row="6" Margin="0,4,0,0">
+            <TextBlock Style="{StaticResource LabelText}">
+                <Run Text="Additional local password " /><Run Text="(optional)" FontStyle="Italic" />
+            </TextBlock>
+            <PasswordBox x:Name="UnlockPasswordBox" Margin="0,4,0,4" KeyDown="PasswordBox_KeyDown" />
+            <TextBlock Text="If set, NcPasswords asks for this password every time it starts, so your saved data on this PC can't be read without it - not even by other apps running under your Windows account."
+                       FontSize="11" Opacity="0.6" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <TextBlock Grid.Row="7" Text="{Binding ErrorMessage}" Foreground="Firebrick" TextWrapping="Wrap"
                     VerticalAlignment="Top" Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibility}, FallbackValue=Collapsed}" />
 
-        <DockPanel Grid.Row="7">
+        <DockPanel Grid.Row="8">
             <ProgressBar DockPanel.Dock="Left" Width="20" Height="20" IsIndeterminate="True"
                          Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}" Margin="0,0,10,0" />
             <Button Content="Sign in" Click="SignIn_Click" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBool}}"

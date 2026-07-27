@@ -23,5 +23,5 @@ public partial class LoginWindow : Window
         }
     }
 
-    private async Task SubmitAsync() => await ViewModel.LoginAsync(PasswordBox.Password);
+    private async Task SubmitAsync() => await ViewModel.LoginAsync(PasswordBox.Password, UnlockPasswordBox.Password);
 }

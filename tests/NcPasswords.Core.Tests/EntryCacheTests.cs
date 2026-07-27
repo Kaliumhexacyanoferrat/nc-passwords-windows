@@ -36,6 +36,31 @@ public class EntryCacheTests : IDisposable
     }
 
     [Fact]
+    public void SaveThenLoad_WithUnlockEntropy_RoundTripsData()
+    {
+        var cache = new EntryCache(_tempFile);
+        var entropy = new byte[] { 1, 2, 3, 4 };
+        var entry = new PasswordEntry { Id = "1", Label = "Example", Username = "bob", Password = "s3cret" };
+
+        cache.Save(new CachedData([entry], [], [], DateTimeOffset.UtcNow), entropy);
+        var loaded = cache.Load(entropy);
+
+        Assert.NotNull(loaded);
+        Assert.Equal("s3cret", loaded!.Passwords[0].Password);
+    }
+
+    [Fact]
+    public void Load_ReturnsNull_WhenUnlockEntropyIsWrong()
+    {
+        var cache = new EntryCache(_tempFile);
+        cache.Save(new CachedData([], [], [], DateTimeOffset.UtcNow), [1, 2, 3, 4]);
+
+        var loaded = cache.Load([9, 9, 9, 9]);
+
+        Assert.Null(loaded);
+    }
+
+    [Fact]
     public void Clear_RemovesCacheFile()
     {
         var cache = new EntryCache(_tempFile);

@@ -16,4 +16,8 @@ public static class AppPaths
     public static string CredentialsFile => Path.Combine(DataDirectory, "credentials.dat");
 
     public static string CacheFile => Path.Combine(DataDirectory, "cache.dat");
+
+    /// <summary>The (non-secret) salt for the optional unlock password - see UnlockPasswordStore. Its
+    /// mere existence marks the unlock password as enabled.</summary>
+    public static string UnlockSaltFile => Path.Combine(DataDirectory, "unlock.salt");
 }

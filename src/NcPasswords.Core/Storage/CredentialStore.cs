@@ -18,21 +18,22 @@ public sealed class CredentialStore
 
     public bool Exists => File.Exists(_path);
 
-    public StoredCredentials? Load()
+    public StoredCredentials? Load(byte[]? unlockEntropy = null)
     {
         try
         {
-            return DpapiProtector.ReadProtectedJson<StoredCredentials>(_path);
+            return DpapiProtector.ReadProtectedJson<StoredCredentials>(_path, unlockEntropy);
         }
         catch (Exception)
         {
-            // Corrupt/unreadable (e.g. moved to another machine/user) - treat as "not logged in".
+            // Corrupt/unreadable (e.g. moved to another machine/user, or a wrong unlock password) -
+            // treat as "not logged in".
             return null;
         }
     }
 
-    public void Save(StoredCredentials credentials) =>
-        DpapiProtector.WriteProtectedJson(_path, credentials);
+    public void Save(StoredCredentials credentials, byte[]? unlockEntropy = null) =>
+        DpapiProtector.WriteProtectedJson(_path, credentials, unlockEntropy);
 
     public void Clear()
     {

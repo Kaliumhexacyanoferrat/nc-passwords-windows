@@ -29,7 +29,21 @@ public partial class App : Application
         {
             _trayIcon = new TrayIcon();
             var credentialStore = new CredentialStore();
-            var stored = credentialStore.Load();
+            var unlockPasswordStore = new UnlockPasswordStore();
+
+            byte[]? unlockEntropy = null;
+            if (unlockPasswordStore.IsEnabled)
+            {
+                unlockEntropy = PromptForUnlock(credentialStore, unlockPasswordStore);
+                if (unlockEntropy is null)
+                {
+                    // Canceled, or the user never entered a correct password.
+                    Shutdown();
+                    return;
+                }
+            }
+
+            var stored = credentialStore.Load(unlockEntropy);
 
             if (stored is null)
             {
@@ -37,7 +51,7 @@ public partial class App : Application
             }
             else
             {
-                ShowMain(stored);
+                ShowMain(stored, unlockEntropy);
             }
         }
         catch (Exception ex)
@@ -102,12 +116,22 @@ public partial class App : Application
     {
         var loginViewModel = new LoginViewModel(onLoggedIn: ShowMain);
         var loginWindow = new LoginWindow { DataContext = loginViewModel };
+        loginWindow.Closed += (_, _) =>
+        {
+            // Only quit if the user closed this window directly - SwapWindow replaces
+            // _currentWindow with the next window *before* closing this one on a successful
+            // sign-in, so that transition doesn't hit this path.
+            if (ReferenceEquals(_currentWindow, loginWindow))
+            {
+                Current.Shutdown();
+            }
+        };
         SwapWindow(loginWindow);
     }
 
-    public static void ShowMain(StoredCredentials credentials)
+    public static void ShowMain(StoredCredentials credentials, byte[]? unlockEntropy)
     {
-        var mainViewModel = new MainViewModel(credentials, onSignedOut: ShowLogin);
+        var mainViewModel = new MainViewModel(credentials, unlockEntropy, onSignedOut: ShowLogin);
         var mainWindow = new MainWindow { DataContext = mainViewModel };
         _trayIcon?.AttachTo(mainWindow);
         SwapWindow(mainWindow);
@@ -115,6 +139,20 @@ public partial class App : Application
         _ = mainViewModel.InitializeAsync().ContinueWith(
             t => CrashLog.Write("InitializeAsync", t.Exception!),
             TaskContinuationOptions.OnlyOnFaulted);
+    }
+
+    /// <summary>Blocks startup behind the optional local unlock password until it's entered correctly
+    /// (returning the derived DPAPI entropy) or the user cancels (returning null).</summary>
+    private static byte[]? PromptForUnlock(CredentialStore credentialStore, UnlockPasswordStore unlockPasswordStore)
+    {
+        var viewModel = new UnlockViewModel(password =>
+        {
+            var entropy = unlockPasswordStore.TryDerive(password);
+            return entropy is not null && credentialStore.Load(entropy) is not null ? entropy : null;
+        });
+
+        var window = new UnlockWindow { DataContext = viewModel };
+        return window.ShowDialog() == true ? viewModel.Entropy : null;
     }
 
     private static void SwapWindow(Window next)

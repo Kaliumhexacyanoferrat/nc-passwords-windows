@@ -1,0 +1,39 @@
+<Window x:Class="NcPasswords.App.Views.UnlockWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Unlock — NcPasswords"
+        Height="260" Width="380"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="NcPasswords is locked" Style="{StaticResource HeaderText}" />
+
+        <TextBlock Grid.Row="1" Style="{StaticResource LabelText}" TextWrapping="Wrap" Margin="0,0,0,12">
+            <Run Text="Enter the additional local password you set at sign-in to unlock your saved data." />
+        </TextBlock>
+
+        <PasswordBox Grid.Row="2" x:Name="PasswordBox" Margin="{StaticResource FieldMargin}"
+                     KeyDown="PasswordBox_KeyDown" />
+
+        <TextBlock Grid.Row="3" Text="{Binding ErrorMessage}" Foreground="Firebrick" TextWrapping="Wrap"
+                    VerticalAlignment="Top" Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibility}, FallbackValue=Collapsed}" />
+
+        <DockPanel Grid.Row="4" LastChildFill="False">
+            <ProgressBar DockPanel.Dock="Left" Width="20" Height="20" IsIndeterminate="True"
+                         Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}" Margin="0,0,10,0" />
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                <Button Content="Cancel" Click="Cancel_Click" Padding="16,6" Margin="0,0,8,0" />
+                <Button Content="Unlock" Click="Unlock_Click" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBool}}"
+                        Padding="16,6" />
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>
