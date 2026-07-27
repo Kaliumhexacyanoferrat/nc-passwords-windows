@@ -43,8 +43,16 @@ public static class WindowPlacementStore
         window.WindowStartupLocation = WindowStartupLocation.Manual;
         window.Left = data.Left;
         window.Top = data.Top;
-        window.Width = width;
-        window.Height = height;
+
+        if (window.SizeToContent is not (SizeToContent.Width or SizeToContent.WidthAndHeight))
+        {
+            window.Width = width;
+        }
+
+        if (window.SizeToContent is not (SizeToContent.Height or SizeToContent.WidthAndHeight))
+        {
+            window.Height = height;
+        }
 
         if (data.IsMaximized)
         {

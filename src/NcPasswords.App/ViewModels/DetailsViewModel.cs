@@ -1,8 +1,30 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using NcPasswords.Core.Api;
 
 namespace NcPasswords.App.ViewModels;
 
-public sealed record DetailField(string Label, string Value);
+/// <summary>A single labeled detail value. Secret fields (the password) display as asterisks until clicked.</summary>
+public sealed partial class DetailField : ObservableObject
+{
+    private const string Mask = "**********";
+
+    public string Label { get; }
+    public string Value { get; }
+    public bool IsSecret { get; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(DisplayValue))]
+    private bool _isRevealed;
+
+    public DetailField(string label, string value, bool isSecret = false)
+    {
+        Label = label;
+        Value = value;
+        IsSecret = isSecret;
+    }
+
+    public string DisplayValue => IsSecret && !IsRevealed ? Mask : Value;
+}
 
 /// <summary>Flattens a <see cref="PasswordEntry"/> (including its custom fields) for read-only detail display.</summary>
 public sealed class DetailsViewModel
@@ -23,7 +45,7 @@ public sealed class DetailsViewModel
         Fields =
         [
             new DetailField("Username", entry.Username),
-            new DetailField("Password", entry.Password),
+            new DetailField("Password", entry.Password, isSecret: true),
             new DetailField("URL", entry.Url),
             new DetailField("Notes", entry.Notes),
             new DetailField("Created", entry.CreatedAt.LocalDateTime.ToString("g")),
