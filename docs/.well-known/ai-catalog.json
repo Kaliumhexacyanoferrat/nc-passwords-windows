@@ -1,0 +1,27 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "NcPasswords",
+    "identifier": "nc-passwords.genhttp.run",
+    "documentationUrl": "https://nc-passwords.genhttp.run/llms.txt",
+    "logoUrl": "https://nc-passwords.genhttp.run/assets/logo-512.png"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:nc-passwords.genhttp.run:docs:llms-txt",
+      "displayName": "NcPasswords overview for language models",
+      "type": "text/markdown",
+      "url": "https://nc-passwords.genhttp.run/llms.txt",
+      "description": "What NcPasswords is, how it stores data, what it supports, and where to download it, as an llms.txt file.",
+      "tags": [
+        "nextcloud",
+        "passwords",
+        "windows",
+        "desktop-app",
+        "llms.txt"
+      ],
+      "version": "0.2.0",
+      "updatedAt": "2026-10-12T00:00:00Z"
+    }
+  ]
+}

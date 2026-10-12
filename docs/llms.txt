@@ -1,0 +1,37 @@
+# NcPasswords
+
+> NcPasswords is a free, open-source (MIT) Windows 10/11 desktop app for the Nextcloud Passwords app. You sign in once with your Nextcloud server address, username and password (or an app password with two-factor authentication), and can then browse, search and copy your saved logins from the desktop without opening a browser. Everything it stores is encrypted on the local PC.
+
+Key facts:
+
+- Current version: 0.2.0. Platform: Windows 10 and 11 (x64). Distributed as an installer (per-user, no administrator rights) and as a portable ZIP.
+- It talks only to the Nextcloud server the user enters. No analytics, no relay, no other backend.
+- The Nextcloud login and the cached entries are encrypted with Windows DPAPI (per user). An optional additional local password, set at sign-in, is required on every start; it is never written to disk, only a salt used to derive a key from it.
+- Entries are cached locally, so the app works offline and refreshes when opened.
+- Folders and entries are shown in one combined tree, modeled after Password Safe. Each entry shows its name and username; details (URL, notes, tags, custom fields) open in a details view.
+- Double-click copies the password, Ctrl+C copies the username; the clipboard is cleared after 30 seconds. Search filters by name, username, URL and notes as you type.
+- Closing the window keeps it running in the system tray.
+- Not supported: accounts with Nextcloud Passwords client-side encryption enabled (the app shows a message).
+- The app is not code-signed, so Windows SmartScreen shows an "unknown publisher" warning on first run ("More info" → "Run anyway").
+- It is an independent project, not affiliated with Nextcloud GmbH, built with help from Claude, and has not had a third-party security audit.
+
+## Download
+
+- [Installer (v0.2.0)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.0/NcPasswords-Setup-0.2.0.exe): NcPasswords-Setup-0.2.0.exe
+- [Portable ZIP (v0.2.0)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.0/NcPasswords-0.2.0-win-x64.zip): unzip and run NcPasswords.exe
+- [All releases](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/latest)
+
+## Documentation
+
+- [README](https://raw.githubusercontent.com/Kaliumhexacyanoferrat/nc-passwords-windows/main/README.md): features, local password protection, installing, building from source
+- [Website](https://nc-passwords.genhttp.run/): the project page
+
+## Source
+
+- [GitHub repository](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows): C# / .NET, WPF user interface, MIT license
+- [License](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/blob/main/LICENSE)
+
+## Optional
+
+- [Nextcloud Passwords](https://apps.nextcloud.com/apps/passwords): the Nextcloud server app NcPasswords connects to
+- [Password Safe](https://github.com/pwsafe/pwsafe): the desktop password manager whose layout NcPasswords follows

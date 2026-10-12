@@ -22,3 +22,4 @@ jobs:
         with:
           activation: gp-rnap6-znnaa-2tzrz-vp5f4
           path: docs
+          include_hidden_files: true

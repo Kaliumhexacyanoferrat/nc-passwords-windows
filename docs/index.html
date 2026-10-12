@@ -3,10 +3,55 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NcPasswords — Nextcloud Passwords for Windows</title>
-<meta name="description" content="A small, fast Windows app for the passwords you already keep in Nextcloud. Sign in once, then look up, search and copy your logins from the desktop — encrypted on your PC, always.">
+<title>NcPasswords — Nextcloud Passwords app for Windows</title>
+<meta name="description" content="Free, open-source Windows app for Nextcloud Passwords. Sign in once, then search and copy your logins from the desktop — encrypted on your PC, works offline.">
+<meta name="theme-color" content="#0082C9">
+<link rel="canonical" href="https://nc-passwords.genhttp.run/">
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
+<link rel="alternate" type="text/markdown" title="llms.txt" href="llms.txt">
+<link rel="ai-catalog" type="application/ai-catalog+json" href=".well-known/ai-catalog.json">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NcPasswords">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://nc-passwords.genhttp.run/">
+<meta property="og:title" content="NcPasswords — Nextcloud Passwords app for Windows">
+<meta property="og:description" content="Search and copy the logins you keep in Nextcloud Passwords straight from the Windows desktop. Free, open source, encrypted on your PC.">
+<meta property="og:image" content="https://nc-passwords.genhttp.run/assets/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="NcPasswords logo and the app window listing a Shopping folder and a Nextcloud login, next to the headline: Your Nextcloud passwords, without the browser.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NcPasswords — Nextcloud Passwords app for Windows">
+<meta name="twitter:description" content="Search and copy the logins you keep in Nextcloud Passwords straight from the Windows desktop. Free, open source, encrypted on your PC.">
+<meta name="twitter:image" content="https://nc-passwords.genhttp.run/assets/og-image.png">
+<meta name="twitter:image:alt" content="NcPasswords logo and the app window listing a Shopping folder and a Nextcloud login.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "NcPasswords",
+  "description": "A Windows desktop app for browsing, searching and copying the entries you keep in the Nextcloud Passwords app, with an encrypted local cache for offline use.",
+  "url": "https://nc-passwords.genhttp.run/",
+  "image": "https://nc-passwords.genhttp.run/assets/logo-512.png",
+  "screenshot": "https://nc-passwords.genhttp.run/assets/screenshot.png",
+  "applicationCategory": "SecurityApplication",
+  "operatingSystem": "Windows 10, Windows 11",
+  "softwareVersion": "0.2.0",
+  "downloadUrl": "https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.0/NcPasswords-Setup-0.2.0.exe",
+  "installUrl": "https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/latest",
+  "license": "https://opensource.org/licenses/MIT",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Person", "name": "Andreas Nägeli", "url": "https://github.com/Kaliumhexacyanoferrat" },
+  "sameAs": ["https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows"]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -45,7 +90,7 @@
   }
   code, .mono{ font-family: 'JetBrains Mono', ui-monospace, monospace; }
   a{ color: var(--brand-dark); }
-  img{ max-width: 100%; display: block; }
+  img{ max-width: 100%; height: auto; display: block; }
   .wrap{ max-width: var(--max); margin: 0 auto; padding: 0 24px; }
 
   /* ---------- nav ---------- */
@@ -194,6 +239,9 @@
     margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line);
     color: var(--muted); font-size: .82rem; max-width: 78ch;
   }
+  .made-with{ margin: 12px 0 0; font-size: .78rem; }
+  .made-with a{ color: var(--muted); text-decoration: none; }
+  .made-with a:hover{ color: var(--ink); text-decoration: underline; }
 
   @media (max-width: 860px){
     .nav-links{ display: none; }
@@ -211,7 +259,7 @@
 <header class="nav">
   <div class="wrap">
     <a class="brand" href="#top">
-      <img src="assets/logo-512.png" alt="">
+      <img src="assets/logo-512.png" alt="" width="512" height="512">
       <span>NcPasswords</span>
     </a>
     <nav class="nav-links">
@@ -246,7 +294,7 @@
       </div>
 
       <div class="shot-card">
-        <img src="assets/screenshot.png" alt="NcPasswords window showing a Shopping folder and a Nextcloud entry with username JohnDoe, and a last-synced status bar.">
+        <img src="assets/screenshot.png" width="617" height="507" fetchpriority="high" alt="NcPasswords window showing a Shopping folder and a Nextcloud entry with username JohnDoe, and a last-synced status bar.">
       </div>
     </div>
   </section>
@@ -391,7 +439,7 @@
   <div class="wrap">
     <div class="footer-grid">
       <a class="footer-brand" href="#top">
-        <img src="assets/logo-512.png" alt="">
+        <img src="assets/logo-512.png" alt="" width="512" height="512">
         <span>NcPasswords</span>
       </a>
       <nav class="footer-links">
@@ -408,6 +456,7 @@
       (Anthropic's AI coding assistant) and hasn't been reviewed by a third-party security audit.
       As with any tool that handles your passwords, please use your own judgment, especially for sensitive accounts.
     </p>
+    <p class="made-with"><a href="https://genhttp.dev/" rel="nofollow">Made with GenHTTP Lambda</a></p>
   </div>
 </footer>
 
