@@ -1,0 +1,24 @@
+name: Publish to GenHTTP Lambda
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: genhttp-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: Kaliumhexacyanoferrat/genhttp-pages@v1
+        with:
+          activation: gp-rnap6-znnaa-2tzrz-vp5f4
+          path: docs
