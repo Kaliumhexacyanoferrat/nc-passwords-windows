@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NcPasswords — Nextcloud Passwords app for Windows</title>
-<meta name="description" content="Free, open-source Windows app for Nextcloud Passwords. Sign in once, then search and copy your logins from the desktop — encrypted on your PC, works offline.">
+<title>NcPasswords – Nextcloud Passwords desktop app for Windows</title>
+<meta name="description" content="A Windows desktop app for the Nextcloud Passwords app. Search your saved logins and copy passwords without opening the browser. Free and open source.">
 <meta name="theme-color" content="#0082C9">
 <link rel="canonical" href="https://nc-passwords.genhttp.run/">
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
@@ -18,16 +18,16 @@
 <meta property="og:site_name" content="NcPasswords">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://nc-passwords.genhttp.run/">
-<meta property="og:title" content="NcPasswords — Nextcloud Passwords app for Windows">
-<meta property="og:description" content="Search and copy the logins you keep in Nextcloud Passwords straight from the Windows desktop. Free, open source, encrypted on your PC.">
+<meta property="og:title" content="NcPasswords – Nextcloud Passwords desktop app for Windows">
+<meta property="og:description" content="A Windows desktop app for the Nextcloud Passwords app: search your saved logins and copy passwords without opening the browser. Free and open source.">
 <meta property="og:image" content="https://nc-passwords.genhttp.run/assets/og-image.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="NcPasswords logo and the app window listing a Shopping folder and a Nextcloud login, next to the headline: Your Nextcloud passwords, without the browser.">
+<meta property="og:image:alt" content="NcPasswords logo and the app window listing a Shopping folder and a Nextcloud login, next to the headline: Nextcloud Passwords on your Windows desktop.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="NcPasswords — Nextcloud Passwords app for Windows">
-<meta name="twitter:description" content="Search and copy the logins you keep in Nextcloud Passwords straight from the Windows desktop. Free, open source, encrypted on your PC.">
+<meta name="twitter:title" content="NcPasswords – Nextcloud Passwords desktop app for Windows">
+<meta name="twitter:description" content="A Windows desktop app for the Nextcloud Passwords app: search your saved logins and copy passwords without opening the browser. Free and open source.">
 <meta name="twitter:image" content="https://nc-passwords.genhttp.run/assets/og-image.png">
 <meta name="twitter:image:alt" content="NcPasswords logo and the app window listing a Shopping folder and a Nextcloud login.">
 
@@ -139,7 +139,7 @@
   .hero h1{
     font-size: clamp(2.3rem, 4.4vw, 3.4rem);
     line-height: 1.06;
-    max-width: 16ch;
+    max-width: 24ch;
   }
   .hero-sub{
     margin-top: 20px; color: var(--muted); font-size: 1.14rem; max-width: 56ch;
@@ -276,12 +276,13 @@
 
   <section class="hero">
     <div class="wrap">
-      <span class="eyebrow">FOR NEXTCLOUD PASSWORDS</span>
-      <h1>Your passwords,<br>without the browser.</h1>
+      <span class="eyebrow">DESKTOP APP FOR NEXTCLOUD PASSWORDS</span>
+      <h1>Nextcloud Passwords<br>on your Windows desktop.</h1>
       <p class="hero-sub">
-        NcPasswords is a small Windows app for the vault you already keep in Nextcloud.
-        Sign in once, then look up, search and copy your logins straight from the desktop —
-        and everything it stores stays encrypted on your own PC.
+        NcPasswords is a Windows app for <a href="https://apps.nextcloud.com/apps/passwords">Passwords</a>,
+        the password manager you can install on your Nextcloud. Sign in once, and your saved logins are
+        always a click away: search for an entry, copy its password, and get on with your day,
+        without opening Nextcloud in the browser.
       </p>
       <div class="cta-row">
         <a class="btn btn-primary btn-lg" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.0/NcPasswords-Setup-0.2.0.exe">
@@ -301,29 +302,29 @@
 
   <section class="trust" id="security">
     <div class="wrap">
-      <span class="eyebrow">LOCAL BY DESIGN</span>
-      <h2>Your secrets never leave this PC unencrypted.</h2>
+      <span class="eyebrow">SECURITY</span>
+      <h2>Your data stays on your PC, encrypted.</h2>
       <div class="trust-grid">
         <div class="trust-card">
           <div class="row">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="8" rx="2" fill="#1E9E5A"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9" stroke="#1E9E5A" stroke-width="1.8" fill="none"/></svg>
-            <h3>Encrypted at rest</h3>
+            <h3>Encrypted on disk</h3>
           </div>
-          <p>Your Nextcloud login is protected the moment you sign in, using Windows' own per-user encryption (DPAPI) — readable only by your Windows account, on this PC. Want more? Set an optional additional password at sign-in and NcPasswords will ask for it every time it starts, so not even other apps running under your account can read your data without it.</p>
+          <p>Your Nextcloud login and the local copy of your passwords are encrypted with Windows' built-in protection (DPAPI), so only your Windows account on this PC can read them. For extra safety, set a local password when you sign in: NcPasswords then asks for it at every start, and other programs running under your account can't read the data without it.</p>
         </div>
         <div class="trust-card">
           <div class="row">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2v16M4 6l6-4 6 4M4 6v9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6" stroke="#1E9E5A" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg>
             <h3>Works offline</h3>
           </div>
-          <p>Your passwords are cached the same way, locally, so NcPasswords keeps working without a connection — and never hands your vault to anyone else.</p>
+          <p>NcPasswords keeps an encrypted copy of your passwords, so you can still look things up without an internet connection. The copy is updated every time you open the app.</p>
         </div>
         <div class="trust-card">
           <div class="row">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.2" stroke="#1E9E5A" stroke-width="1.8"/><path d="M6.8 10.3l2 2 4.4-4.6" stroke="#1E9E5A" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <h3>Talks only to your server</h3>
+            <h3>Connects only to your server</h3>
           </div>
-          <p>No analytics, no relay, no other backend. NcPasswords only ever calls the Nextcloud server address you give it.</p>
+          <p>No analytics, no tracking, no servers of ours in between. The app only talks to the Nextcloud address you enter.</p>
         </div>
       </div>
     </div>
@@ -332,32 +333,32 @@
   <section class="features" id="features">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow">WHAT IT DOES</span>
-        <h2>Everything you need, nothing you don't.</h2>
-        <p>NcPasswords keeps its interface as small as the job it does — one combined tree for browsing, one shortcut for copying, and the rest tucked out of sight until you ask for it.</p>
+        <span class="eyebrow">FEATURES</span>
+        <h2>Simple and quick to use.</h2>
+        <p>NcPasswords does one job: getting you to the right password quickly. It shows the passwords you keep in Nextcloud; adding and editing them still happens in Nextcloud itself.</p>
       </div>
 
       <div class="feature-layout">
         <ul class="feature-text-list">
           <li>
-            <strong>One combined tree</strong>
-            <span>Folders and entries live together, in the classic layout made popular by Password Safe — expand what you need, ignore the rest.</span>
+            <strong>Folders and entries in one list</strong>
+            <span>Your Nextcloud folders and entries appear together in a single tree, much like in Password Safe. Open the folders you need and ignore the rest.</span>
           </li>
           <li>
-            <strong>Just a name and a username</strong>
-            <span>Entries show only what helps you pick the right one. Notes, URLs, custom fields and tags stay one click away, in the details view.</span>
+            <strong>A tidy list</strong>
+            <span>Each entry shows just its name and username. The address, notes, tags and custom fields are in the details view.</span>
           </li>
           <li>
-            <strong>Copy without touching the mouse twice</strong>
-            <span>Double-click an entry to copy its password, or press Ctrl+C to copy its username. Either way, your clipboard clears itself after 30 seconds.</span>
+            <strong>Copy in one step</strong>
+            <span>Double-click an entry to copy its password, or press Ctrl+C to copy the username. The clipboard is cleared again after 30 seconds.</span>
           </li>
           <li>
             <strong>Search as you type</strong>
-            <span>Filters instantly across name, username, URL and notes — folders collapse down to just the matches.</span>
+            <span>Type a few letters to filter by name, username, address or notes. Only folders with matching entries stay visible.</span>
           </li>
           <li>
-            <strong>Lives in the tray</strong>
-            <span>Closing the window doesn't quit the app — it's ready the moment you need the next password.</span>
+            <strong>Waits in the tray</strong>
+            <span>Closing the window keeps NcPasswords running in the system tray, ready for the next password. Choose Exit from the tray icon to close it completely.</span>
           </li>
         </ul>
 
@@ -395,24 +396,24 @@
     <div class="wrap">
       <div class="section-head">
         <span class="eyebrow">GET STARTED</span>
-        <h2>Installed in under a minute.</h2>
+        <h2>Set up in a minute.</h2>
       </div>
 
       <div class="install-grid">
         <div class="step">
           <span class="step-num">01</span>
-          <h3>Download the installer</h3>
-          <p>One file, below — no account or sign-up needed to grab it.</p>
+          <h3>Download</h3>
+          <p>Get the installer below. No account or registration needed.</p>
         </div>
         <div class="step">
           <span class="step-num">02</span>
-          <h3>Run it</h3>
-          <p>Installs just for your Windows account, so no administrator rights are required.</p>
+          <h3>Install</h3>
+          <p>It installs for your Windows user only, so you don't need administrator rights.</p>
         </div>
         <div class="step">
           <span class="step-num">03</span>
           <h3>Sign in</h3>
-          <p>Enter your Nextcloud server address, username and password — use an app password if you have two-factor authentication on. Optionally add a local password too, for an extra unlock step on this PC.</p>
+          <p>Enter your Nextcloud address, username and password. If you use two-factor authentication, create an app password in Nextcloud and use that instead. Accounts with client-side encryption aren't supported.</p>
         </div>
       </div>
 
@@ -423,12 +424,12 @@
         <a class="btn btn-ghost btn-lg" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.0/NcPasswords-0.2.0-win-x64.zip">
           Portable ZIP
         </a>
-        <span class="cta-meta">Prefer to build it yourself? <a href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows#for-developers">Source on GitHub →</a></span>
+        <span class="cta-meta">Want to build it yourself? <a href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows#for-developers">Source on GitHub →</a></span>
       </div>
 
       <div class="callout">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#6B5518" stroke-width="1.6"/><path d="M10 6v5" stroke="#6B5518" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="14" r="1" fill="#6B5518"/></svg>
-        <span>NcPasswords isn't digitally signed yet, so Windows may show a blue "unknown publisher" warning the first time you run it. That's expected — choose <strong>More info → Run anyway</strong> to continue.</span>
+        <span>NcPasswords isn't digitally signed yet, so Windows may warn about an unknown publisher the first time you run it. Click <strong>More info</strong>, then <strong>Run anyway</strong>.</span>
       </div>
     </div>
   </section>
@@ -451,10 +452,10 @@
     </div>
     <p class="disclaimer">
       NcPasswords is an independent, MIT-licensed project and isn't affiliated with Nextcloud GmbH.
-      Its navigation style is deliberately modeled after Password Safe.
-      This project — including parts of its code and documentation — was built with the help of Claude
-      (Anthropic's AI coding assistant) and hasn't been reviewed by a third-party security audit.
-      As with any tool that handles your passwords, please use your own judgment, especially for sensitive accounts.
+      Its layout is modeled after Password Safe.
+      Parts of the code and documentation were written with the help of Claude, Anthropic's AI assistant,
+      and the app hasn't had an independent security audit.
+      As with any tool that handles your passwords, use your own judgment, especially for sensitive accounts.
     </p>
     <p class="made-with"><a href="https://genhttp.dev/" rel="nofollow">Made with GenHTTP Lambda</a></p>
   </div>
