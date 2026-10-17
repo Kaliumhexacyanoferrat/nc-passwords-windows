@@ -1,6 +1,6 @@
 # NcPasswords
 
-[![Download for Windows](https://img.shields.io/badge/Download-NcPasswords_v0.2.0-0082C9?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.0/NcPasswords-Setup-0.2.0.exe)
+[![Download for Windows](https://img.shields.io/badge/Download-NcPasswords_v0.2.1-0082C9?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.1/NcPasswords-Setup-0.2.1.exe)
 
 [NcPasswords](https://nc-passwords.genhttp.run/) is a simple Windows app for browsing your Nextcloud [Passwords](https://apps.nextcloud.com/apps/passwords)
 entries without opening a browser. You sign in once, and can then look up, search and copy your saved logins
