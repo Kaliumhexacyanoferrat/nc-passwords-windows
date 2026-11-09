@@ -42,8 +42,8 @@
   "screenshot": "https://nc-passwords.genhttp.run/assets/screenshot.png",
   "applicationCategory": "SecurityApplication",
   "operatingSystem": "Windows 10, Windows 11",
-  "softwareVersion": "0.2.1",
-  "downloadUrl": "https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.1/NcPasswords-Setup-0.2.1.exe",
+  "softwareVersion": "0.3.0",
+  "downloadUrl": "https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.0/NcPasswords-Setup-0.3.0.exe",
   "installUrl": "https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/latest",
   "license": "https://opensource.org/licenses/MIT",
   "isAccessibleForFree": true,
@@ -167,7 +167,7 @@
   .trust .eyebrow{ background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.14); color: #8FD9B4; }
   .trust h2{ color: #fff; font-size: clamp(1.7rem, 3vw, 2.2rem); max-width: 24ch; }
   .trust-grid{
-    margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+    margin-top: 40px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 40px;
   }
   .trust-card{
     background: rgba(255,255,255,.05);
@@ -268,7 +268,7 @@
       <a href="#install">Install</a>
       <a href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows">GitHub</a>
     </nav>
-    <a class="btn btn-primary btn-sm" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.1/NcPasswords-Setup-0.2.1.exe">Download</a>
+    <a class="btn btn-primary btn-sm" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.0/NcPasswords-Setup-0.3.0.exe">Download</a>
   </div>
 </header>
 
@@ -285,13 +285,13 @@
         without opening Nextcloud in the browser.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary btn-lg" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.1/NcPasswords-Setup-0.2.1.exe">
+        <a class="btn btn-primary btn-lg" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.0/NcPasswords-Setup-0.3.0.exe">
           Download for Windows
         </a>
-        <a class="btn btn-ghost btn-lg" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.1/NcPasswords-0.2.1-win-x64.zip">
+        <a class="btn btn-ghost btn-lg" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.0/NcPasswords-0.3.0-win-x64.zip">
           Portable ZIP
         </a>
-        <span class="cta-meta"><code>v0.2.1</code> · Windows 10/11 · free &amp; open source</span>
+        <span class="cta-meta"><code>v0.3.0</code> · Windows 10/11 · free &amp; open source</span>
       </div>
 
       <div class="shot-card">
@@ -307,10 +307,17 @@
       <div class="trust-grid">
         <div class="trust-card">
           <div class="row">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="6.5" cy="10" r="3.7" stroke="#1E9E5A" stroke-width="1.8"/><path d="M10.2 10H18M15 10v3M17.5 10v2.2" stroke="#1E9E5A" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <h3>Never sees your Nextcloud password</h3>
+          </div>
+          <p>You sign in on your Nextcloud's own login page in the browser, and two-factor authentication works as usual. NcPasswords only receives an app password, which you can revoke at any time under Settings → Security in Nextcloud. Signing out of NcPasswords revokes it automatically.</p>
+        </div>
+        <div class="trust-card">
+          <div class="row">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="8" rx="2" fill="#1E9E5A"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9" stroke="#1E9E5A" stroke-width="1.8" fill="none"/></svg>
             <h3>Encrypted on disk</h3>
           </div>
-          <p>Your Nextcloud login and the local copy of your passwords are encrypted with Windows' built-in protection (DPAPI), so only your Windows account on this PC can read them. For extra safety, set a local password when you sign in: NcPasswords then asks for it at every start, and other programs running under your account can't read the data without it.</p>
+          <p>The app password and the local copy of your passwords are encrypted with Windows' built-in protection (DPAPI), so only your Windows account on this PC can read them. For extra safety, set a local password when you sign in: NcPasswords then asks for it at every start, and other programs running under your account can't read the data without it.</p>
         </div>
         <div class="trust-card">
           <div class="row">
@@ -413,15 +420,15 @@
         <div class="step">
           <span class="step-num">03</span>
           <h3>Sign in</h3>
-          <p>Enter your Nextcloud address, username and password. If you use two-factor authentication, create an app password in Nextcloud and use that instead. Accounts with client-side encryption aren't supported.</p>
+          <p>Enter your Nextcloud address and approve access in your browser, on your Nextcloud's own login page. NcPasswords never sees your Nextcloud password, and two-factor authentication works as usual. Accounts with client-side encryption aren't supported.</p>
         </div>
       </div>
 
       <div class="install-cta">
-        <a class="btn btn-primary btn-lg" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.1/NcPasswords-Setup-0.2.1.exe">
+        <a class="btn btn-primary btn-lg" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.0/NcPasswords-Setup-0.3.0.exe">
           Download for Windows
         </a>
-        <a class="btn btn-ghost btn-lg" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.1/NcPasswords-0.2.1-win-x64.zip">
+        <a class="btn btn-ghost btn-lg" href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.0/NcPasswords-0.3.0-win-x64.zip">
           Portable ZIP
         </a>
         <span class="cta-meta">Want to build it yourself? <a href="https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows#for-developers">Source on GitHub →</a></span>

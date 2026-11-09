@@ -1,6 +1,6 @@
 # NcPasswords
 
-[![Download for Windows](https://img.shields.io/badge/Download-NcPasswords_v0.2.1-0082C9?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.1/NcPasswords-Setup-0.2.1.exe)
+[![Download for Windows](https://img.shields.io/badge/Download-NcPasswords_v0.3.0-0082C9?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.0/NcPasswords-Setup-0.3.0.exe)
 
 [NcPasswords](https://nc-passwords.genhttp.run/) is a simple Windows app for browsing your Nextcloud [Passwords](https://apps.nextcloud.com/apps/passwords)
 entries without opening a browser. You sign in once, and can then look up, search and copy your saved logins
@@ -20,8 +20,12 @@ straight from the desktop.
 
 ## What it does
 
-- Sign in with your Nextcloud server address, username and password (use an **app password** instead if you
-  have two-factor authentication turned on).
+- Sign in through your browser: enter your Nextcloud server address, then log in and approve access on your
+  Nextcloud's own page (two-factor authentication works as usual). NcPasswords never sees your Nextcloud
+  password - it receives an app password, which shows up as "NcPasswords (Windows)" under
+  Settings → Security in Nextcloud, where you can revoke it at any time. Signing out revokes it too.
+  If you're upgrading from version 0.2.1 or older, which stored your Nextcloud password, that saved password
+  is deleted on the first start and you're asked to sign in again.
 - Your login details are stored securely on your own PC, encrypted so only your Windows user account can read
   them.
 - **Optional:** set an additional local password at sign-in to require it every time NcPasswords starts. Without

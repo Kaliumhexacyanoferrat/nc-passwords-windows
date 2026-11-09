@@ -1,12 +1,13 @@
 # NcPasswords
 
-> NcPasswords is a free, open-source (MIT) Windows 10/11 desktop app for the Nextcloud Passwords app. You sign in once with your Nextcloud server address, username and password (or an app password with two-factor authentication), and can then browse, search and copy your saved logins from the desktop without opening a browser. Everything it stores is encrypted on the local PC.
+> NcPasswords is a free, open-source (MIT) Windows 10/11 desktop app for the Nextcloud Passwords app. You sign in once through your browser using Nextcloud's login flow (two-factor authentication works; the app receives a revocable app password and never sees the account password), and can then browse, search and copy your saved logins from the desktop without opening a browser. Everything it stores is encrypted on the local PC.
 
 Key facts:
 
-- Current version: 0.2.1. Platform: Windows 10 and 11 (x64). Distributed as an installer (per-user, no administrator rights) and as a portable ZIP.
+- Current version: 0.3.0. Platform: Windows 10 and 11 (x64). Distributed as an installer (per-user, no administrator rights) and as a portable ZIP.
 - It talks only to the Nextcloud server the user enters. No analytics, no relay, no other backend.
-- The Nextcloud login and the cached entries are encrypted with Windows DPAPI (per user). An optional additional local password, set at sign-in, is required on every start; it is never written to disk, only a salt used to derive a key from it.
+- Sign-in uses Nextcloud Login Flow v2: the user logs in on their own Nextcloud page in the browser and the app receives an app password, which the user can revoke under Settings → Security; signing out revokes it automatically. Upgrading from 0.2.1 or older (which stored the account password) deletes the saved password and asks the user to sign in again.
+- The app password and the cached entries are encrypted with Windows DPAPI (per user). An optional additional local password, set at sign-in, is required on every start; it is never written to disk, only a salt used to derive a key from it.
 - Entries are cached locally, so the app works offline and refreshes when opened.
 - Folders and entries are shown in one combined tree, modeled after Password Safe. Each entry shows its name and username; details (URL, notes, tags, custom fields) open in a details view.
 - Double-click copies the password, Ctrl+C copies the username; the clipboard is cleared after 30 seconds. Search filters by name, username, URL and notes as you type.
@@ -17,8 +18,8 @@ Key facts:
 
 ## Download
 
-- [Installer (v0.2.1)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.1/NcPasswords-Setup-0.2.1.exe): NcPasswords-Setup-0.2.1.exe
-- [Portable ZIP (v0.2.1)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.2.1/NcPasswords-0.2.1-win-x64.zip): unzip and run NcPasswords.exe
+- [Installer (v0.3.0)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.0/NcPasswords-Setup-0.3.0.exe): NcPasswords-Setup-0.3.0.exe
+- [Portable ZIP (v0.3.0)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.0/NcPasswords-0.3.0-win-x64.zip): unzip and run NcPasswords.exe
 - [All releases](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/latest)
 
 ## Documentation
