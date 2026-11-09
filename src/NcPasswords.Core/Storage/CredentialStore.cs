@@ -1,6 +1,16 @@
 namespace NcPasswords.Core.Storage;
 
-public sealed record StoredCredentials(string ServerUrl, string Username, string AppPassword);
+/// <param name="AppPassword">The app password Nextcloud issued to this app through the browser login flow.</param>
+/// <param name="FromLoginFlow">
+/// True for everything saved since the browser login flow was introduced. Versions up to 0.2.1 asked
+/// for the account password and stored it here instead - such credentials are missing this flag and
+/// are deleted at startup rather than used.
+/// </param>
+public sealed record StoredCredentials(
+    string ServerUrl,
+    string Username,
+    string AppPassword,
+    bool FromLoginFlow = false);
 
 /// <summary>
 /// Persists the Nextcloud connection details to disk, DPAPI-encrypted for the current

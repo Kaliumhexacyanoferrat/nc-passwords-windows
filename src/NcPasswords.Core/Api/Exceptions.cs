@@ -21,7 +21,7 @@ public sealed class CseNotSupportedException : PasswordsApiException
 /// <summary>Thrown when the server rejects the supplied credentials.</summary>
 public sealed class PasswordsAuthenticationException : PasswordsApiException
 {
-    public PasswordsAuthenticationException(string message = "Authentication failed. Check the server URL, username and password.")
+    public PasswordsAuthenticationException(string message = "Nextcloud rejected the saved sign-in. It may have been revoked - sign out and sign in again.")
         : base(message)
     {
     }

@@ -2,7 +2,7 @@ using System.Net;
 
 namespace NcPasswords.Core.Tests;
 
-/// <summary>Routes requests to a per-relative-path responder, so tests can script a fake Passwords server.</summary>
+/// <summary>Routes requests to a per-relative-path responder, so tests can script a fake Nextcloud server.</summary>
 public sealed class FakeHttpMessageHandler : HttpMessageHandler
 {
     private readonly Dictionary<string, Func<HttpRequestMessage, HttpResponseMessage>> _responders = new();
@@ -15,7 +15,9 @@ public sealed class FakeHttpMessageHandler : HttpMessageHandler
     {
         Requests.Add(request);
         var path = request.RequestUri!.AbsolutePath;
-        var key = path[(path.IndexOf("/api/1.0/", StringComparison.Ordinal) + "/api/1.0/".Length)..];
+        // Passwords API calls are keyed relative to /api/1.0/; anything else (e.g. Nextcloud core) by full path.
+        var apiIndex = path.IndexOf("/api/1.0/", StringComparison.Ordinal);
+        var key = apiIndex >= 0 ? path[(apiIndex + "/api/1.0/".Length)..] : path;
 
         if (_responders.TryGetValue(key, out var responder))
         {

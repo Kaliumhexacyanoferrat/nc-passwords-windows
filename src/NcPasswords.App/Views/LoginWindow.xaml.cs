@@ -1,5 +1,4 @@
 using System.Windows;
-using System.Windows.Input;
 using NcPasswords.App.ViewModels;
 
 namespace NcPasswords.App.Views;
@@ -9,19 +8,15 @@ public partial class LoginWindow : Window
     public LoginWindow()
     {
         InitializeComponent();
+        Loaded += (_, _) => ServerUrlBox.Focus();
+
+        // Stop waiting for the browser if the user gives up and closes the window.
+        Closed += (_, _) => ViewModel.Cancel();
     }
 
     private LoginViewModel ViewModel => (LoginViewModel)DataContext;
 
-    private async void SignIn_Click(object sender, RoutedEventArgs e) => await SubmitAsync();
-
-    private async void PasswordBox_KeyDown(object sender, KeyEventArgs e)
-    {
-        if (e.Key == Key.Enter)
-        {
-            await SubmitAsync();
-        }
-    }
-
-    private async Task SubmitAsync() => await ViewModel.LoginAsync(PasswordBox.Password, UnlockPasswordBox.Password);
+    // The sign-in button is the window's default button, so Enter in any field lands here too.
+    private async void SignIn_Click(object sender, RoutedEventArgs e) =>
+        await ViewModel.LoginAsync(UnlockPasswordBox.Password);
 }

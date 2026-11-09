@@ -45,7 +45,19 @@ public partial class App : Application
 
             var stored = credentialStore.Load(unlockEntropy);
 
-            if (stored is null)
+            if (stored is { FromLoginFlow: false })
+            {
+                // Saved by version 0.2.1 or older, which stored the Nextcloud account password itself.
+                // Delete it (and everything protected alongside it) instead of keeping it around.
+                credentialStore.Clear();
+                new EntryCache().Clear();
+                unlockPasswordStore.Clear();
+                ShowLogin(
+                    stored.ServerUrl,
+                    "NcPasswords now signs in through your browser and no longer keeps your Nextcloud password. " +
+                    "Your previously saved password has been deleted from this PC - please sign in again.");
+            }
+            else if (stored is null)
             {
                 ShowLogin();
             }
@@ -112,9 +124,11 @@ public partial class App : Application
         }
     }
 
-    public static void ShowLogin()
+    public static void ShowLogin() => ShowLogin(null, null);
+
+    private static void ShowLogin(string? serverUrl, string? infoMessage)
     {
-        var loginViewModel = new LoginViewModel(onLoggedIn: ShowMain);
+        var loginViewModel = new LoginViewModel(onLoggedIn: ShowMain, serverUrl, infoMessage);
         var loginWindow = new LoginWindow { DataContext = loginViewModel };
         loginWindow.Closed += (_, _) =>
         {
@@ -161,6 +175,9 @@ public partial class App : Application
         _currentWindow = next;
         Current.MainWindow = next;
         next.Show();
+
+        // After signing in through the browser, the browser has focus - pull the app back in front.
+        next.Activate();
 
         if (previous is not null)
         {

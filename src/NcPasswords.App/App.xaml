@@ -10,6 +10,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <local:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+            <local:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibility" />
             <local:InverseBooleanConverter x:Key="InverseBool" />
             <local:StringToVisibilityConverter x:Key="StringToVisibility" />
             <local:CountToVisibilityConverter x:Key="CountToVisibility" />

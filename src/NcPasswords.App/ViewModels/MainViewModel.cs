@@ -120,6 +120,8 @@ public partial class MainViewModel : ObservableObject
     private void SignOut()
     {
         _clipboardClearTimer?.Stop();
+        _ = LoginViewModel.RevokeQuietlyAsync(_credentials);
+
         _credentialStore.Clear();
         _cache.Clear();
         _unlockPasswordStore.Clear();
