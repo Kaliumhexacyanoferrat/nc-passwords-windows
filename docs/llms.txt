@@ -4,8 +4,9 @@
 
 Key facts:
 
-- Current version: 0.3.0. Platform: Windows 10 and 11 (x64). Distributed as an installer (per-user, no administrator rights) and as a portable ZIP.
+- Current version: 0.3.1. Platform: Windows 10 and 11 (x64). Distributed as an installer (per-user, no administrator rights) and as a portable ZIP.
 - It talks only to the Nextcloud server the user enters. No analytics, no relay, no other backend.
+- Connections go through the proxy configured in Windows (manual, setup script or automatic detection, or the HTTP_PROXY/HTTPS_PROXY environment variables); proxies that require authentication are answered with the signed-in Windows account.
 - Sign-in uses Nextcloud Login Flow v2: the user logs in on their own Nextcloud page in the browser and the app receives an app password, which the user can revoke under Settings → Security; signing out revokes it automatically. Upgrading from 0.2.1 or older (which stored the account password) deletes the saved password and asks the user to sign in again.
 - The app password and the cached entries are encrypted with Windows DPAPI (per user). An optional additional local password, set at sign-in, is required on every start; it is never written to disk, only a salt used to derive a key from it.
 - Entries are cached locally, so the app works offline and refreshes when opened.
@@ -18,8 +19,8 @@ Key facts:
 
 ## Download
 
-- [Installer (v0.3.0)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.0/NcPasswords-Setup-0.3.0.exe): NcPasswords-Setup-0.3.0.exe
-- [Portable ZIP (v0.3.0)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.0/NcPasswords-0.3.0-win-x64.zip): unzip and run NcPasswords.exe
+- [Installer (v0.3.1)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.1/NcPasswords-Setup-0.3.1.exe): NcPasswords-Setup-0.3.1.exe
+- [Portable ZIP (v0.3.1)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.1/NcPasswords-0.3.1-win-x64.zip): unzip and run NcPasswords.exe
 - [All releases](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/latest)
 
 ## Documentation

@@ -1,6 +1,6 @@
 # NcPasswords
 
-[![Download for Windows](https://img.shields.io/badge/Download-NcPasswords_v0.3.0-0082C9?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.0/NcPasswords-Setup-0.3.0.exe)
+[![Download for Windows](https://img.shields.io/badge/Download-NcPasswords_v0.3.1-0082C9?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/Kaliumhexacyanoferrat/nc-passwords-windows/releases/download/v0.3.1/NcPasswords-Setup-0.3.1.exe)
 
 [NcPasswords](https://nc-passwords.genhttp.run/) is a simple Windows app for browsing your Nextcloud [Passwords](https://apps.nextcloud.com/apps/passwords)
 entries without opening a browser. You sign in once, and can then look up, search and copy your saved logins
@@ -41,6 +41,8 @@ straight from the desktop.
   you copy is automatically cleared from your clipboard after 30 seconds. Right-click an entry for the same
   options, plus "Details...".
 - Type in the search box to instantly filter down to matching entries.
+- Works behind a proxy: NcPasswords uses the proxy configured in Windows (including setup scripts and automatic
+  detection) and signs in to proxies that require it with your Windows account, just like your browser.
 - Closing the window doesn't quit the app - it keeps running in the system tray so it's ready the next time you
   need a password. Right-click the tray icon and choose "Exit" if you want to close it fully.
 
