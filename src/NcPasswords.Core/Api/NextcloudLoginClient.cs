@@ -28,7 +28,7 @@ public sealed class NextcloudLoginClient : IDisposable
 
     public NextcloudLoginClient(HttpMessageHandler? handler = null)
     {
-        _http = handler is null ? new HttpClient() : new HttpClient(handler, disposeHandler: false);
+        _http = handler is null ? new HttpClient(SystemProxy.CreateHandler()) : new HttpClient(handler, disposeHandler: false);
         _http.Timeout = TimeSpan.FromSeconds(30);
         _http.DefaultRequestHeaders.UserAgent.ParseAdd(ClientName);
         _http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

@@ -30,7 +30,7 @@ public sealed class PasswordsApiClient : IDisposable
         var baseUri = new Uri($"{normalized}/index.php/apps/passwords/api/1.0/");
 
         _ownsHttpClient = true;
-        _http = handler is null ? new HttpClient() : new HttpClient(handler, disposeHandler: false);
+        _http = handler is null ? new HttpClient(SystemProxy.CreateHandler()) : new HttpClient(handler, disposeHandler: false);
         _http.BaseAddress = baseUri;
         _http.Timeout = TimeSpan.FromSeconds(30);
         _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
